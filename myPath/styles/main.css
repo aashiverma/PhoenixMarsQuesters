@@ -38,13 +38,29 @@ ul {
 	margin-bottom: 15px; 
 	margin-top: 10px;
 }
-
-.wall {
+.pathNode{
+	transition : background-color 0.08s ease-in-out;
+	background-color: #ffee31;
+	border-color: #ffee31;
+}
+.weight{
 	transition : background-color 0.1s ease-in-out;
-	background-color: #262b28;
+	background-color: #4820db;
 	border-color: #262b28;
 }
 
+
+.wall {
+	transition : background-color 0.1s ease-in-out;
+	background-color: #ce266c;
+	border-color: #262b28;
+}
+.object{
+	transition : background-color 0.1s ease-in-out;
+	background-color: #8235af;
+	border-color: #262b28;
+
+}
 .none {
 	transition : background-color 0.1s ease-in-out;
 	background-color: white;
