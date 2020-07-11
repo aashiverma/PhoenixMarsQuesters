@@ -169,7 +169,7 @@ $( "#mazes .dropdown-item").click(function(){
 		recursiveDivMaze("HORIZONTAL");
 	} else if (maze == "Simple Spiral"){
 		spiralMaze();
-	}else if (maze == "weightMaze"){
+	}else if (maze == "High Meteorite Hit Region"){
 	   randomMaze1();
 	}
 	console.log("Maze has been changd to: " + maze);
@@ -220,7 +220,7 @@ function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
 	} 
 	else if(startOrEnd == "end"){
     	endCell = [newCellX, newCellY];
-    	console.log("Moving end to [" + newCellX + ", " + newCellY + "]")
+    	//console.log("Moving end to [" + newCellX + ", " + newCellY + "]")
 	}
 	else if(startOrEnd == "object"){
 	   objectCell= [newCellX, newCellY];
@@ -262,15 +262,17 @@ function updateStartBtnText(){
 	} else if (algorithm == "Breadth-First Search (BFS)"){
 		$("#startBtn").html("Start BFS");
 	} else if (algorithm == "Dijkstra"){
-		$("#startBtn").html("Start Dijkstra");
+		$("#startBtn").html("Start Dijkstra1");
+	}else if (algorithm == "Dijkstra"){
+		$("#startBtn").html("Start Dijkstra1");
 	} else if (algorithm == "A*"){
 		$("#startBtn").html("Start A*");
 	} else if (algorithm == "Greedy Best-First Search"){
 		$("#startBtn").html("Start Greedy BFS");
 	} else if (algorithm == "Jump Point Search"){
 		$("#startBtn").html("Start JPS");
-	}else if (algorithm == "BidirectionalBFS"){
-		$("#startBtn").html("Start BIBFS");
+	}else if (algorithm == "Bidirectional BFS"){
+		$("#startBtn").html("Start Bidirectional BFS");
 	}
 	return;
 }
@@ -361,6 +363,12 @@ function executeAlgo(){
 		else{
 			var pathFound = dijkstra(startCell,endCell, null);
 		}
+	}else if (algorithm == "Dijkstra1"){
+		if(createObject)
+		{var pathFound = dijkstra1(startCell,endCell, objectCell);}
+		else{
+			var pathFound = dijkstra1(startCell,endCell, null);
+		}
 	} else if (algorithm == "A*"){
 		if(createObject)
 		{var pathFound = AStar(startCell,endCell, objectCell);}
@@ -377,7 +385,7 @@ function executeAlgo(){
 		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
 		else{var pathFound = jumpPointSearch(startCell,endCell,objectCell);}
 	}
-	else if (algorithm == "BidirectionalBFS"){
+	else if (algorithm == "Bidirectional BFS"){
 		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
 		else{var pathFound = BidirectionalBFS(startCell,endCell,objectCell)};
 	}

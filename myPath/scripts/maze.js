@@ -95,8 +95,8 @@ function makeWeights(){
 	}
 	
 async function randomMaze1(){
-	inProgress = true;
-	clearBoard(keepWalls = false);
+	
+	//clearBoard(keepWalls = false);
 	var visited = createVisited1();
 	var weights = makeWeights();
 	var cells = [ startCell, endCell ];
@@ -111,8 +111,9 @@ async function randomMaze1(){
 		cells.pop();
 		var neighbors = getNeighbors(randomCell[0], randomCell[1]);
 		if (neighborsThatAreWeights(neighbors, weights) < 2){ continue; }
-		walls[ randomCell[0] ][ randomCell[1] ] = false;
+		weights[ randomCell[0] ][ randomCell[1] ] = false;
 		for (var k = 0; k < neighbors.length; k++){
+			
 			var i = neighbors[k][0];
 			var j = neighbors[k][1];
 			if (visited[i][j]){ continue; }
@@ -123,11 +124,12 @@ async function randomMaze1(){
 	var cells = $("#tableContainer").find("td");
 	for (var i = 0; i < totalRows; i++){
 		for (var j = 0; j < totalCols; j++){
-			if (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || walls[i][j]){ 
+			if (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || weights[i][j]){ 
 				cellsToAnimate.push([ [i, j], "weight"]); 
 			}
 		}
 	}
+	inProgress = true;
 	await animateCells();
 	inProgress = false;
 	return;

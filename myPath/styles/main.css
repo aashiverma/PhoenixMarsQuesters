@@ -65,8 +65,10 @@ ul {
 }*/
 .weight{
 	transition : background-color 0.1s ease-in-out;
-	background-image:url(images/meteorite.png) ;
+	background-image:url(meteorite.png) ;
 	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
 } 
 
 
