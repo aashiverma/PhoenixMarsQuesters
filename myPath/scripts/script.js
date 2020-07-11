@@ -1,17 +1,5 @@
-//Things to do:
-// Add more algorithms (research)
-	// Bidirectional depth first search
-	// Bidirectional A*?
-	// Bidirectional breadth first search
-// Add more maze creation functions
-	// Do pure horizontal and pure vertical maze
-	// Do spiral maze from middle?
-/* ------------------------------------ */
-/* ---- Var Declarations & Preamble---- */
-/* ------------------------------------ */
-
-var totalRows = 25;
-var totalCols = 73;
+var totalRows = 20;
+var totalCols = 60;
 var inProgress = false;
 //var initialMessage = "Click or drag cells to build walls! Press start when you finish and have selected an algorithm!";
 var cellsToAnimate = [];
@@ -27,7 +15,8 @@ var movingEnd = false;
 var movingObject = false;
 var numberOfObjects= 0;
 var objectCell = [11, 20];
- 
+var createObject = false;
+ var objectCellsToAnimate = [];
 
 function generateGrid( rows, cols ) {
     var grid = "<table>";
@@ -180,7 +169,7 @@ $( "#mazes .dropdown-item").click(function(){
 		recursiveDivMaze("HORIZONTAL");
 	} else if (maze == "Simple Spiral"){
 		spiralMaze();
-	}else if (maze == "weights"){
+	}else if (maze == "weightMaze"){
 	   randomMaze1();
 	}
 	console.log("Maze has been changd to: " + maze);
@@ -189,8 +178,8 @@ $( "#mazes .dropdown-item").click(function(){
 	
 		// let innerHTML = document.getElementById("startButtonAddObject").innerHTML;
 		// if (this.currentAlgorithm !== "bidirectional") {
-		// 	document.getElementById("water").onclick = () => {
-		
+			// document.getElementById("water").onclick = () => {
+		    //  createObject = true;
 		// var cells = $("#tableContainer").find("td");
 		// var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
 		// for(var i =0; i<cells.length; i++){
@@ -205,16 +194,16 @@ $( "#mazes .dropdown-item").click(function(){
 		// 	   objectCell = [11,20];
 		// 	   objectCell.addClass("object");
 		// 	}
-		// 	// if (this.endCell === objectNodeId || this.startCell === objectNodeId || this.numberOfObjects === 1) {
-		// 	//   console.log("Failure to place object.");
-		// 	// } else {
-		// 	  document.getElementById("water").innerHTML = '<a href="#">Water</a></li>';
-		// 	//  this.clearPath("clickedButton");
-		// 	 // this.object = objectNodeId;
-		// 	//  this.numberOfObjects = 1;
-		// 	//  this.cell.addClass = "object";
-		// 	 // document.getElementById(objectNodeId).className = "object";
-		// 	}
+			// if (this.endCell === objectNodeId || this.startCell === objectNodeId || this.numberOfObjects === 1) {
+			//   console.log("Failure to place object.");
+			// } else {
+			  //document.getElementById("water").innerHTML = '<a href="#">Water</a></li>';
+			//  this.clearPath("clickedButton");
+			 // this.object = objectNodeId;
+			//  this.numberOfObjects = 1;
+			//  this.cell.addClass = "object";
+			 // document.getElementById(objectNodeId).className = "object";
+			//}
 			 
 	// to be worked upon	
 
@@ -280,6 +269,8 @@ function updateStartBtnText(){
 		$("#startBtn").html("Start Greedy BFS");
 	} else if (algorithm == "Jump Point Search"){
 		$("#startBtn").html("Start JPS");
+	}else if (algorithm == "BidirectionalBFS"){
+		$("#startBtn").html("Start BIBFS");
 	}
 	return;
 }
@@ -354,24 +345,41 @@ async function traverseGraph(algorithm){
 }
 
 function executeAlgo(){
-	if (algorithm == "Depth-First Search (DFS)"){
-		var visited = createVisited();
-		var pathFound = DFS(startCell[0], startCell[1], visited);
+	if (algorithm == "Depth-First Search (DFS)" ){
+		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		else{var visited = createVisited();
+		var pathFound = DFS(startCell[0], startCell[1], visited, objectCell);}
 	} else if (algorithm == "Breadth-First Search (BFS)"){
-		// var q = new Queue();
-		// var p = createPrev();
-		// var v = createVisited();
-		var pathFound1 = BFS(startCell,objectCell);
-		var pathFound2 = BFS(objectCell, endCell);
-	   var 	pathFound =  pathFound1 + pathFound2;
+		if(createObject)
+		{var pathFound = BFS(startCell,endCell, objectCell);}
+		else{
+			var pathFound = BFS(startCell,endCell, null);
+		}
 	} else if (algorithm == "Dijkstra"){
-		var pathFound = dijkstra();
+		if(createObject)
+		{var pathFound = dijkstra(startCell,endCell, objectCell);}
+		else{
+			var pathFound = dijkstra(startCell,endCell, null);
+		}
 	} else if (algorithm == "A*"){
-		var pathFound = AStar();
+		if(createObject)
+		{var pathFound = AStar(startCell,endCell, objectCell);}
+		else{
+			var pathFound = AStar(startCell,endCell, null);
+		}
 	} else if (algorithm == "Greedy Best-First Search"){
-		var pathFound = greedyBestFirstSearch();
+		if(createObject){
+		var pathFound = greedyBestFirstSearch(startCell,endCell,objectCell);}
+		else{
+			var pathFound = greedyBestFirstSearch(startCell,endCell,null);
+		}
 	} else if (algorithm == "Jump Point Search"){
-		var pathFound = jumpPointSearch();
+		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		else{var pathFound = jumpPointSearch(startCell,endCell,objectCell);}
+	}
+	else if (algorithm == "BidirectionalBFS"){
+		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		else{var pathFound = BidirectionalBFS(startCell,endCell,objectCell)};
 	}
 	return pathFound;
 }
@@ -499,7 +507,7 @@ async function animateCells(){
 		var x = cellCoordinates[0];
 		var y = cellCoordinates[1];
 		var num = (x * (totalCols)) + y;
-		if (num == startCellIndex || num == endCellIndex || num == objectCellIndex /*|| num.hasClass("success")*/){ continue; }
+		if (num == startCellIndex || num == endCellIndex || (num == objectCellIndex && createObject == true) /*|| num.hasClass("success")*/){ continue; }
 		var cell = cells[num];
 		var colorClass = cellsToAnimate[i][1];
 
@@ -510,9 +518,11 @@ async function animateCells(){
 		$(cell).addClass(colorClass);
 	}
 	cellsToAnimate = [];
+	
 	//console.log("End of animation has been reached!");
 	return new Promise(resolve => resolve(true));
 }
+
 /*
 async function flash(color){
 	var item = "#logo";
@@ -561,10 +571,11 @@ function clearBoard( keepWalls ){
 	var cells = $("#tableContainer").find("td");
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
-	//var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
 	for (var i = 0; i < cells.length; i++){
 			isWall = $( cells[i] ).hasClass("wall");
 			isWeight = $( cells[i] ).hasClass("weight");
+			isObject = $( cells[i] ).hasClass("object");
 			$( cells[i] ).removeClass();
 			if (i == startCellIndex){
 				$(cells[i]).addClass("start"); 
@@ -573,6 +584,19 @@ function clearBoard( keepWalls ){
 			}else if(isWeight){
 				$(cells[i]).addClass("weight"); 
 			}
+			else if(i == objectCellIndex ) {
+				if(((objectCell[1] < startCell[1]) && (objectCell[1] > endCell[1]) )|| 
+			        ((objectCell[1] > startCell[1]) && (objectCell[1] < endCell[1]) ))
+					 { $(cells[i]).addClass("object");  createObject = true;}
+					 else{
+						 createObject= false;
+					 }
+			 	//else{
+					//  alert("Please place water in the area between start and end position");
+					//  cells[i][1] = startCell[1] + ((endCell[1] - startCell[1])/2);
+				//	 $(cells[i]).addClass("object"); 
+				 //}
+			 }
 			 else if ( keepWalls && isWall ){ 
 				$(cells[i]).addClass("wall"); 
 			}

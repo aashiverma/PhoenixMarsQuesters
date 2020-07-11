@@ -78,8 +78,10 @@ ul {
 }
 .object{
 	transition : background-color 0.1s ease-in-out;
-	background-image: url(images/Water.png);
+	background-image: url(Water.png);
 	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
 
 }
 .none {
@@ -93,7 +95,17 @@ ul {
 	background-color: #1cd4b5;
 	border-color: white;
 }
-
+.searching2{
+	transition : background-color 0.08s ease-in-out;
+	background-color: #b15017;
+	border-color: #b15017;
+}
+.visited2{
+	transition : background-color 0.08s ease-in-out;
+	background-color: #d8e243;
+	border-color:#d8e243;
+	border-color: white;
+}
 .visited {
 	transition : background-color 0.08s ease-in-out;
 	background-color: #e89440;
