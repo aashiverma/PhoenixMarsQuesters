@@ -2,19 +2,32 @@ body {
     padding-top: 80px; 
     height: 100%;
 }
-
+nav ul li {
+	
+	margin-left: 10px;
+	margin-right: 10px;
+}
 nav ul li a{
 	color: white;
-
-	
 }
-#logo {
-	color:white;
+nav ul li a:hover{
+	color: #ec5d4d;
 }
+.dropdown-menu { 
+	background-color: rgb(36, 41, 41);
+   }
+ 
+.dropdown-menu a{ 
+	color: white !important;
+   }
+ 
+.dropdown-menu a:hover{
+	background-color: #e74c3c;
+   }
 
 td {
-	border: 0.5px solid grey;
-	background-color:rgb(36,41,41);
+	border: 0.5px solid white;
+	background-color:#e74c3c;
     width: 20px;
     height: 20px;
 }
@@ -29,36 +42,44 @@ td {
 ul {
 	list-style-type: none;
 }
+.icons{
+	color:white;
+}
 
 .btn-space {
-	margin-right: 5px;
+	margin-right:25px;
+}
+.btn-default{
+		background-color:#e74c3c;
+		color:white;
 }
 
 #update {
 	margin-bottom: 15px; 
 	margin-top: 10px;
 }
-.pathNode{
+/* .pathNode{
 	transition : background-color 0.08s ease-in-out;
 	background-color: #ffee31;
 	border-color: #ffee31;
-}
+}*/
 .weight{
 	transition : background-color 0.1s ease-in-out;
-	background-color: #4820db;
-	border-color: #262b28;
-}
+	background-image:url(images/meteorite.png) ;
+	background-position: center;
+} 
 
 
 .wall {
 	transition : background-color 0.1s ease-in-out;
-	background-color: #ce266c;
-	border-color: #262b28;
+	background-color: #262b28;
+	border-color:white;
+	color:white;
 }
 .object{
 	transition : background-color 0.1s ease-in-out;
-	background-color: #8235af;
-	border-color: #262b28;
+	background-image: url(images/Water.png);
+	background-position: center;
 
 }
 .none {
@@ -70,29 +91,33 @@ ul {
 .searching {
 	transition : background-color 0.08s ease-in-out;
 	background-color: #1cd4b5;
-	border-color: #1cd4b5;
+	border-color: white;
 }
 
 .visited {
 	transition : background-color 0.08s ease-in-out;
 	background-color: #e89440;
-	border-color: #e89440;
+	border-color: white;
 }
-
+.unvisited{
+	background-color: #e74c3c;
+	border-color: white;
+	color: white;
+}
 .success {
 	transition : background-color 0.08s ease-in-out;
 	background-color: #ffee31;
-	border-color: #ffee31;
+	border-color: white;
 }
 
 .start {
 	background-color: green;
-	border-color: green;
+	border-color:white;
 }
 
 .end {
 	background-color: red;
-	border-color: red;
+	border-color:white;
 }
 
 #bigTableContainer {
@@ -108,9 +133,9 @@ ul {
 }
 
 #results {
-	height: 87px;
+	height: 77px;
 	width: 120px;
-	background-color: #ffc107;
+	background-color: #fcbd02;
 	position: fixed;
 	right: 10px;
 	bottom: 10px;
@@ -136,4 +161,28 @@ ul {
 
 .fun-fact {
 	color: darkgreen;
+}
+.Wall{
+	color:white;
+}
+.meteor{
+	color:white;
+}
+.Srt{
+	color:white;
+}
+.SP{
+	color:white;
+}
+.water{
+	color:white;
+}
+.tar{
+	color:white;
+}
+.unvis{
+	color:white;
+}
+.vis{
+	color:white;
 }

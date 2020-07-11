@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>myPath</title>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Our Custom CSS style sheet -->
 	<link rel="stylesheet" type="text/css" href="styles/main.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	
 	<link rel="stylesheet" type="text/css" href="styles/magic.min.css">
-	<script src="https://kit.fontawesome.com/d1f3dd87b7.js" crossorigin="anonymous"></script>
-</head>
-<body>
-	<nav class="navbar navbar-expand-sm fixed-top" style=" background-color:#e74c3c" id="myNavbar">
-  		<a class="navbar-brand" href="#" id="logo">PHEONIX MARS QUESTERS</a>
-  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
+    <script type="text/javascript" src="script.js" ></script>
+    <script type="javascript"src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="fontawesome-free-5.13.1-web/js/all.js"></script>
+	
+	<title>PheonixMarsQuesters</title>
+	</head>
+<body background="images/backgroung.png">
+	<nav class="navbar navbar-expand-sm fixed-top" style=" background-color:rgb(21, 22, 22)" id="myNavbar">
+  		<a class="navbar-brand" href="#" id="logo"><img src="images/logo.png" width="110"></a>
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" >
     		<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-	    	<ul class="navbar-nav mr-auto">
+	    	<ul class="navbar-nav">
 		      	<li class="nav-item dropdown" id="algorithms">
-		        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
 		          	Algorithms
 		        	</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<div class="dropdown-menu" >
 						<a class="dropdown-item" href="#">A*</a>
 						<a class="dropdown-item" href="#">Dijkstra</a>
 						<a class="dropdown-item" href="#">Greedy Best-First Search</a>
 					    <a class="dropdown-item" href="#">Breadth-First Search (BFS)</a>
 					    <a class="dropdown-item" href="#">Depth-First Search (DFS)</a>
-					    <a class="dropdown-item" href="#">Jump Point Search</a>
+						<a class="dropdown-item" href="#">Jump Point Search</a>
+						<a class="dropdown-item" href="#">Bidirectional BFS</a>
 					</div>
 		      	</li>
 		      	<li class="nav-item dropdown" id="mazes">
-		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
 		          	Mazes
 		        	</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -39,11 +52,11 @@
 					    <a class="dropdown-item" href="#">Recursive Division (Vertical Skew)</a>
 					    <a class="dropdown-item" href="#">Recursive Division (Horizontal Skew)</a>
 						<a class="dropdown-item" href="#">Simple Spiral</a>
-						<a class = "dropdown-item" href = "#" > weights</a>
+						<a class="dropdown-item" href="#">High Meteorite Hit Region</a>
 					</div>
 				</li>
 		      	<li class="nav-item dropdown" id="speed">
-		      		<a class="nav-link dropdown-toggle speedDisplay" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      		<a class="nav-link dropdown-toggle speedDisplay" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
 		          	Speed: Fast
 		        	</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -52,47 +65,46 @@
 					    <a class="dropdown-item" href="#">Fast</a>
 					</div>
 				</li>
-				<li class="nav-item active" id= "water">
-					<a class="nav-link" href="#" >Water Found </a>
-				  </li>
-
-	    	</ul>
-          
-	      	<button class="btn btn-outline-success btn-space" type="submit" id="startBtn">Start</button>
-	      	<button type="button" class="btn btn-outline-warning btn-space" type="submit" id="clearBtn">Clear Board</button>
-	      	<!-- <button type="button" class="btn btn-outline-danger disabled" type="submit" id="stopBtn">Stop</button> -->
-  		</div>
+				
+				  <button class="btn btn-default btn-space " type="submit" id="startBtn">Start!</button>
+				  <button type="button" class="btn btn-dark btn-space " type="submit" id="clearBtn">Clear Board</button>
+				  <button type="button" class="btn btn-dark btn-space " type="submit" id="clearPath">Clear Path</button>
+				</ul>
+		</div>
  	</nav>
 
  	<div class="d-flex flex-row flex-wrap m-2 justify-content-around">	
  		<div class="d-flex p-2">
  			<div class="key wall"></div>  
- 			<div> Wall</div>
- 		</div>
- 		<div class="d-flex p-2">
- 			<div class="key start"></div>  
- 			<div>Start</div>
+ 			<div class="Wall"> Wall</div>
+		 </div> 
+		 <div class="d-flex p-2">
+			<div class="water"><img src="images/Water.png" height="20" alt="water"> Water</div>
+	   </div>
+	   <div class="d-flex p-2">
+		   
+		   <div class="meteor"> <img src="images/meteorite.png" height="30" alt="meteorite">Meteorite</div>
+	   </div>
+		 <div class="d-flex p-2">
+			 <div class="key start"></div>  
+ 			<div class="Srt" >Start</div>
  		</div>
  		<div class="d-flex p-2">
  			<div class="key end"></div>  
- 			<div>Target</div>
+ 			<div class="tar">Target</div>
 		 </div>
-		 <div class="d-flex p-2" id= "pani">
-			<div class="key end"></div>  
-			<div>Water Found</div>
-		</div>
- 		<div class="d-flex p-2">
+		 <div class="d-flex p-2">
  			<div class="key searching"></div>  
  			<div class="key visited"></div>  
- 			<div>Visited</div>
+ 			<div class="vis">Visited</div>
  		</div>
  		<div class="d-flex p-2">
  			<div class="key success"></div>  
- 			<div>Shortest-Path</div>
+ 			<div class="SP">Shortest-Path</div>
  		</div>
  		<div class="d-flex p-2">
- 			<div class="key"></div>  
- 			<div>Unvisited</div>
+ 			<div class="key unvisited"></div>  
+ 			<div class="unvis">Unvisited</div>
  		</div>
  	</div>
 
@@ -185,16 +197,7 @@
 						  <img class="card-img-bottom" src="images/mazes.gif" alt="Card image cap" style="height: 20em">
 						</div>
 						<br>
-						<div class="card border-success">
-						  <h5 class="card-header border-success">Enjoy myPath!</h5>
-						  <div class="card-body">
-						    <p class="card-text"><em>If you want to revisit this tutorial, click the 'Tutorial' button at the end of the page.</em>
-						    <hr>
-						    <p>If you want to see other projects that I've created, check out my github!</p>
-						    </p>
-						    <a href="https://github.com/deckardmehdy" class="btn btn-primary">Github</a>
-						  </div>
-						</div>
+					
 		        	</div>
 		        </div>
 		      </div>
@@ -380,10 +383,10 @@
 	 	</div>	 	
 	</div>
 
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="bootstrap/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="bootstrap/js/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+	
 	<script type="text/javascript" src="scripts/script.js"></script>
 	<script type="text/javascript" src="scripts/heapAndQueu.js"></script>
 	<script type="text/javascript" src="scripts/algos.js"></script>

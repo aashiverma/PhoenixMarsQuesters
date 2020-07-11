@@ -10,8 +10,8 @@
 /* ---- Var Declarations & Preamble---- */
 /* ------------------------------------ */
 
-var totalRows = 20;
-var totalCols = 60;
+var totalRows = 25;
+var totalCols = 73;
 var inProgress = false;
 //var initialMessage = "Click or drag cells to build walls! Press start when you finish and have selected an algorithm!";
 var cellsToAnimate = [];
@@ -189,32 +189,32 @@ $( "#mazes .dropdown-item").click(function(){
 	
 		// let innerHTML = document.getElementById("startButtonAddObject").innerHTML;
 		// if (this.currentAlgorithm !== "bidirectional") {
-			document.getElementById("water").onclick = () => {
+		// 	document.getElementById("water").onclick = () => {
 		
-		var cells = $("#tableContainer").find("td");
-		var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
-		for(var i =0; i<cells.length; i++){
-			if (i == objectCellIndex  ){
-                $(cells[i]).addClass("object");
-			}
-		}
-		if((objectCell[1] < startCell[1]) && (objectCell[1] < endCell[1]) || ((objectCell[1] > startCell[1])
-			(objectCell[1] > endCell[1])) )
-			{
-			   alert("Please place water in the area between start and end position");
-			   objectCell = [11,20];
-			   objectCell.addClass("object");
-			}
-			// if (this.endCell === objectNodeId || this.startCell === objectNodeId || this.numberOfObjects === 1) {
-			//   console.log("Failure to place object.");
-			// } else {
-			  document.getElementById("water").innerHTML = '<a href="#">Water</a></li>';
-			//  this.clearPath("clickedButton");
-			 // this.object = objectNodeId;
-			//  this.numberOfObjects = 1;
-			//  this.cell.addClass = "object";
-			 // document.getElementById(objectNodeId).className = "object";
-			}
+		// var cells = $("#tableContainer").find("td");
+		// var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+		// for(var i =0; i<cells.length; i++){
+		// 	if (i == objectCellIndex  ){
+        //         $(cells[i]).addClass("object");
+		// 	}
+		// }
+		// if((objectCell[1] < startCell[1]) && (objectCell[1] < endCell[1]) || ((objectCell[1] > startCell[1])
+		// 	(objectCell[1] > endCell[1])) )
+		// 	{
+		// 	   alert("Please place water in the area between start and end position");
+		// 	   objectCell = [11,20];
+		// 	   objectCell.addClass("object");
+		// 	}
+		// 	// if (this.endCell === objectNodeId || this.startCell === objectNodeId || this.numberOfObjects === 1) {
+		// 	//   console.log("Failure to place object.");
+		// 	// } else {
+		// 	  document.getElementById("water").innerHTML = '<a href="#">Water</a></li>';
+		// 	//  this.clearPath("clickedButton");
+		// 	 // this.object = objectNodeId;
+		// 	//  this.numberOfObjects = 1;
+		// 	//  this.cell.addClass = "object";
+		// 	 // document.getElementById(objectNodeId).className = "object";
+		// 	}
 			 
 	// to be worked upon	
 
