@@ -1,5 +1,5 @@
-var totalRows = 20;
-var totalCols = 60;
+var totalRows = 25;
+var totalCols = 73;
 var inProgress = false;
 //var initialMessage = "Click or drag cells to build walls! Press start when you finish and have selected an algorithm!";
 var cellsToAnimate = [];
@@ -183,7 +183,17 @@ $( "#mazes .dropdown-item").click(function(){
 		spiralMaze();
 	}else if (maze == "High Meteorite Hit Region" ){
 	   randomMaze1();
-	}
+	}else if(maze=="Traveling SalesMan"){
+		$( "#Salesman .dropdown-item").click(function(){
+			  if ( inProgress ){ update("wait"); return; }
+			  points = $(this).text();
+			 if(points=="Three"){
+  
+			  }else if(points=="Four"){
+
+			  }
+	  });
+	 }
 	console.log("Maze has been changd to: " + maze);
 });
 
@@ -605,7 +615,6 @@ function getDelay(){
 }
 
 function clearBoard(keepWalls ){
-	
 	
 	var cells = $("#tableContainer").find("td");
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];

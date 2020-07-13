@@ -200,3 +200,6 @@ ul {
 .vis{
 	color:white;
 }
+.submenu-item:hover > .dropdown-menu {
+	display: block;
+  }

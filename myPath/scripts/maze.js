@@ -97,9 +97,10 @@ function makeWeights(){
 //var flag2 =0;
 	
 async function randomMaze1(){
+	
 	del =1;
 	clearBoard1( keepWeight = false);
-	//clearBoard1( keepWalls = true);
+	//clearBoard( keepWalls = false);
 	
 
 	var visited = createVisited1();
@@ -137,7 +138,7 @@ async function randomMaze1(){
 	inProgress = true;
 	await animateCells();
 	inProgress = false;
-	del=0;
+	//del=0;
 	return;
 }   
 
