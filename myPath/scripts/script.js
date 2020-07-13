@@ -16,6 +16,7 @@ var movingObject = false;
 var numberOfObjects= 0;
 var objectCell = [11, 20];
 var createObject = false;
+var del =0;
  var objectCellsToAnimate = [];
 
 function generateGrid( rows, cols ) {
@@ -52,6 +53,7 @@ $( "td" ).mousedown(function(){
 		// Clear board if just finished
 		if ( justFinished  && !inProgress ){ 
 			clearBoard( keepWalls = true ); 
+			
 			justFinished = false;
 		}
 		if (index == startCellIndex){
@@ -84,7 +86,8 @@ $( "td" ).mouseenter(function() {
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
     if (!inProgress){
     	if (justFinished){ 
-    		clearBoard( keepWalls = true );
+			clearBoard( keepWalls = true );
+			
     		justFinished = false;
     	}
     	//console.log("Cell index = " + index);
@@ -107,7 +110,8 @@ $( "td" ).click(function() {
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
     if ((inProgress == false) && !(index == startCellIndex) && !(index == endCellIndex) && !(index == objectCellIndex)){
     	if ( justFinished ){ 
-    		clearBoard( keepWalls = true );
+			clearBoard( keepWalls = true );
+			
     		justFinished = false;
     	}
     	$(this).toggleClass("wall");
@@ -133,8 +137,16 @@ $( "#startBtn" ).click(function(){
 });
 
 $( "#clearBtn" ).click(function(){
-    if ( inProgress ){ update("wait"); return; }
+	if ( inProgress ){ update("wait"); return; }
+	if( del ==0){
 	clearBoard(keepWalls = false);
+	}
+
+	else if( del ==1){
+		clearBoard1( keepWeight = false);
+	}
+	
+
 });
 
 
@@ -159,7 +171,7 @@ $( "#speed .dropdown-item").click(function(){
 $( "#mazes .dropdown-item").click(function(){
 	if ( inProgress ){ update("wait"); return; }
 	maze = $(this).text();
-	if (maze == "Random"){
+	if (maze == "Random" ){
 		randomMaze();
 	} else if (maze == "Recursive Division"){
 		recursiveDivMaze(null);
@@ -169,7 +181,7 @@ $( "#mazes .dropdown-item").click(function(){
 		recursiveDivMaze("HORIZONTAL");
 	} else if (maze == "Simple Spiral"){
 		spiralMaze();
-	}else if (maze == "High Meteorite Hit Region"){
+	}else if (maze == "High Meteorite Hit Region" ){
 	   randomMaze1();
 	}
 	console.log("Maze has been changd to: " + maze);
@@ -225,7 +237,8 @@ function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
 	else if(startOrEnd == "object"){
 	   objectCell= [newCellX, newCellY];
 	}
-    clearBoard(keepWalls = true);
+	clearBoard(keepWalls = true);
+	
     return;
 }
 // to be looked 
@@ -262,9 +275,8 @@ function updateStartBtnText(){
 	} else if (algorithm == "Breadth-First Search (BFS)"){
 		$("#startBtn").html("Start BFS");
 	} else if (algorithm == "Dijkstra"){
-		$("#startBtn").html("Start Dijkstra1");
-	}else if (algorithm == "Dijkstra"){
-		$("#startBtn").html("Start Dijkstra1");
+		$("#startBtn").html("Start Dijkstra");
+	
 	} else if (algorithm == "A*"){
 		$("#startBtn").html("Start A*");
 	} else if (algorithm == "Greedy Best-First Search"){
@@ -333,6 +345,8 @@ function countLength(){
 async function traverseGraph(algorithm){
     inProgress = true;
 	clearBoard( keepWalls = true );
+
+	
 	var startTime = Date.now();
 	var pathFound = executeAlgo();
 	var endTime = Date.now();
@@ -348,12 +362,18 @@ async function traverseGraph(algorithm){
 
 function executeAlgo(){
 	if (algorithm == "Depth-First Search (DFS)" ){
-		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		if(createObject && del==0){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		else if( del ==1){
+				alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
+			}
 		else{var visited = createVisited();
 		var pathFound = DFS(startCell[0], startCell[1], visited, objectCell);}
 	} else if (algorithm == "Breadth-First Search (BFS)"){
-		if(createObject)
+		if(createObject && del==0)
 		{var pathFound = BFS(startCell,endCell, objectCell);}
+		else if( del ==1){
+			alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
+		}
 		else{
 			var pathFound = BFS(startCell,endCell, null);
 		}
@@ -363,12 +383,7 @@ function executeAlgo(){
 		else{
 			var pathFound = dijkstra(startCell,endCell, null);
 		}
-	}else if (algorithm == "Dijkstra1"){
-		if(createObject)
-		{var pathFound = dijkstra1(startCell,endCell, objectCell);}
-		else{
-			var pathFound = dijkstra1(startCell,endCell, null);
-		}
+
 	} else if (algorithm == "A*"){
 		if(createObject)
 		{var pathFound = AStar(startCell,endCell, objectCell);}
@@ -382,11 +397,17 @@ function executeAlgo(){
 			var pathFound = greedyBestFirstSearch(startCell,endCell,null);
 		}
 	} else if (algorithm == "Jump Point Search"){
-		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		if(createObject && del==0){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		else if( del ==1){
+			alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
+		}
 		else{var pathFound = jumpPointSearch(startCell,endCell,objectCell);}
 	}
 	else if (algorithm == "Bidirectional BFS"){
-		if(createObject){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		if(createObject && del==0){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+		else if( del ==1  ){
+			alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
+		}
 		else{var pathFound = BidirectionalBFS(startCell,endCell,objectCell)};
 	}
 	return pathFound;
@@ -414,23 +435,30 @@ function makeBomb(cell){
     }
 }
 
-
 function createVisited(){
 	var visited = [];
 	var cells = $("#tableContainer").find("td");
 	for (var i = 0; i < totalRows; i++){
 		var row = [];
 		for (var j = 0; j < totalCols; j++){
-			if (cellIsAWall(i, j, cells)){   // object ke liye false karna pade 
+			
+			if (cellIsAWall(i, j, cells)){
 				row.push(true);
 			} else {
 				row.push(false);
 			}
 		}
+
+		
+			
 		visited.push(row);
 	}
+		
+	
 	return visited;
-}
+	
+	
+	}
 
 function cellIsAWall(i, j, cells){
 	var cellNum = (i * (totalCols)) + j;
@@ -509,13 +537,14 @@ async function animateCells(){
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+	//var weightCellIndex = num.hasClass
 	var delay = getDelay();
 	for (var i = 0; i < cellsToAnimate.length; i++){
 		var cellCoordinates = cellsToAnimate[i][0];
 		var x = cellCoordinates[0];
 		var y = cellCoordinates[1];
 		var num = (x * (totalCols)) + y;
-		if (num == startCellIndex || num == endCellIndex || (num == objectCellIndex && createObject == true) /*|| num.hasClass("success")*/){ continue; }
+		if (num == startCellIndex || num == endCellIndex || (num == objectCellIndex && createObject == true) || cellIsAWeight(x, y, cells)){ continue; }
 		var cell = cells[num];
 		var colorClass = cellsToAnimate[i][1];
 
@@ -575,7 +604,9 @@ function getDelay(){
 	return delay;
 }
 
-function clearBoard( keepWalls ){
+function clearBoard(keepWalls ){
+	
+	
 	var cells = $("#tableContainer").find("td");
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
@@ -589,7 +620,43 @@ function clearBoard( keepWalls ){
 				$(cells[i]).addClass("start"); 
 			} else if (i == endCellIndex){
 				$(cells[i]).addClass("end"); 
-			}else if(isWeight){
+			 }else if( isWeight){
+			  	$(cells[i]).addClass("weight"); 
+			  }
+			else if(i == objectCellIndex ) {
+				if(((objectCell[1] < startCell[1]) && (objectCell[1] > endCell[1]) )|| 
+			        ((objectCell[1] > startCell[1]) && (objectCell[1] < endCell[1]) ))
+					 { $(cells[i]).addClass("object");  createObject = true;}
+					 else{
+						 createObject= false;
+					 }
+			 	
+			 }
+			 else if ( keepWalls && isWall ){ 
+				$(cells[i]).addClass("wall"); 
+			}
+			
+	}
+}
+
+
+function clearBoard1(keepWeight ){
+	
+	//
+	var cells = $("#tableContainer").find("td");
+	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
+	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
+	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+	for (var i = 0; i < cells.length; i++){
+		    isWall = $( cells[i] ).hasClass("wall");
+			isWeight = $( cells[i] ).hasClass("weight");
+			isObject = $( cells[i] ).hasClass("object");
+			$( cells[i] ).removeClass();
+			if (i == startCellIndex){
+				$(cells[i]).addClass("start"); 
+			} else if (i == endCellIndex){
+				$(cells[i]).addClass("end"); 
+			}else if(keepWeight &&  isWeight){
 				$(cells[i]).addClass("weight"); 
 			}
 			else if(i == objectCellIndex ) {
@@ -599,20 +666,23 @@ function clearBoard( keepWalls ){
 					 else{
 						 createObject= false;
 					 }
-			 	//else{
-					//  alert("Please place water in the area between start and end position");
-					//  cells[i][1] = startCell[1] + ((endCell[1] - startCell[1])/2);
-				//	 $(cells[i]).addClass("object"); 
-				 //}
+			 	
 			 }
-			 else if ( keepWalls && isWall ){ 
+			 else if (  isWall ){ 
 				$(cells[i]).addClass("wall"); 
 			}
+			
+			
 	}
 }
 
+
+
+
 // Ending statements
 clearBoard();
+//clearBoard1();
+//clearBoard1();
 
 $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus');

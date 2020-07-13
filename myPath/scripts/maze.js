@@ -1,6 +1,7 @@
 async function randomMaze(){
 	inProgress = true;
-	clearBoard(keepWalls = false);
+	del =0;
+	
 	var visited = createVisited();
 	var walls = makeWalls();
 	var cells = [ startCell, endCell ];
@@ -59,7 +60,7 @@ function makeWeights(){
 	}
 	}
 	
-
+   
 	function createVisited1(){
 	var visited = [];
 	var cells = $("#tableContainer").find("td");
@@ -93,10 +94,14 @@ function makeWeights(){
 		}
 		return neighboringWeights;
 	}
+//var flag2 =0;
 	
 async function randomMaze1(){
+	del =1;
+	clearBoard1( keepWeight = false);
+	//clearBoard1( keepWalls = true);
 	
-	//clearBoard(keepWalls = false);
+
 	var visited = createVisited1();
 	var weights = makeWeights();
 	var cells = [ startCell, endCell ];
@@ -132,6 +137,7 @@ async function randomMaze1(){
 	inProgress = true;
 	await animateCells();
 	inProgress = false;
+	del=0;
 	return;
 }   
 

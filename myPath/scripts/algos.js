@@ -374,13 +374,20 @@ function BidirectionalBFS(){
 // 		  j++;
 //        } 
 //     return []; 
-// }; 
+// };
+
 function dijkstra(start,end,object) {
+	
 	var pathFound = false;
+	var cells = $("#tableContainer").find("td");
 	var myHeap = new minHeap();
 	var prev = createPrev();
 	var distances = createDistances();
+	
+	
+	
 	var visited = createVisited();
+	
 	//startcell defined above
 	distances[ start[0] ][ start[1] ] = 0;
 	myHeap.push([0, [start[0], start[1]]]);
@@ -422,6 +429,9 @@ function dijkstra(start,end,object) {
 			var n = neighbors[k][1];
 			if (visited[m][n]){ continue; }
 			var newDistance = distances[i][j] + 1;
+			if(cellIsAWeight(m,n,cells)){
+                newDistance= distances[i][j] + 4;
+			}
 			if (newDistance < distances[m][n]){
 				distances[m][n] = newDistance;
 				prev[m][n] = [i, j];
@@ -476,73 +486,73 @@ function dijkstra(start,end,object) {
 	return pathFound;
 }
 
-function dijkstra1() {
+// function dijkstra1() {
 	
-	var pathFound = false;
-	var myHeap = new minHeap();//no wall
-	var prev = createPrev();// no wall
-	var distances = createDistances();//no wall
-	var visited = createVisited1();// wall used
-	//startcell defined above
-	distances[ startCell[0] ][ startCell[1] ] = 0;
-	myHeap.push([0, [startCell[0], startCell[1]]]);
-	cellsToAnimate.push([[startCell[0], startCell[1]], "searching"]);
-	while (!myHeap.isEmpty()){
-		//cell is grids node
-		var cell = myHeap.getMin();
-		//console.log("Min was just popped from the heap! Heap is now: " + JSON.stringify(myHeap.heap));
-		var i = cell[1][0];
-		var j = cell[1][1];
-		if (visited[i][j]){ continue; }
-		visited[i][j] = true;
-		cellsToAnimate.push([[i, j], "visited"]);
-		//end cell defined above
-		if (i == endCell[0] && j == endCell[1]){
-			pathFound = true;
-			break;
-		}
-		//get neighbour is a fnctn above
-		var neighbors = getNeighbors(i, j);
-		for (var k = 0; k < neighbors.length; k++){
-			var m = neighbors[k][0];
-			var n = neighbors[k][1];
-			if (visited[m][n]){ continue; }
-			var newDistance = distances[i][j] + 1;
-			if (newDistance < distances[m][n]){
-				distances[m][n] = newDistance;
-				prev[m][n] = [i, j];
-				myHeap.push([newDistance, [m, n]]);
-				//console.log("New cell was added to the heap! It has distance = " + newDistance + ". Heap = " + JSON.stringify(myHeap.heap));
-				cellsToAnimate.push( [[m, n], "searching"] );
-			}
-		}
-		//console.log("Cell [" + i + ", " + j + "] was just evaluated! myHeap is now: " + JSON.stringify(myHeap.heap));
-	}
-	//console.log(JSON.stringify(myHeap.heap));
-	// Make any nodes still in the heap "visited"
-	while ( !myHeap.isEmpty() ){
-		var cell = myHeap.getMin();
-		var i = cell[1][0];
-		var j = cell[1][1];
-		if (visited[i][j]){ continue; }
-		visited[i][j] = true;
-		cellsToAnimate.push( [[i, j], "visited"] );
-	}
-	// If a path was found, illuminate it
-	if (pathFound) {
-		var i = endCell[0];
-		var j = endCell[1];
-		cellsToAnimate.push( [endCell, "success"] );
-		while (prev[i][j] != null){
-			var prevCell = prev[i][j];
-			i = prevCell[0];
-			j = prevCell[1];
-			cellsToAnimate.push( [[i, j], "success"] );
-		}
-	}
+// 	var pathFound = false;
+// 	var myHeap = new minHeap();//no wall
+// 	var prev = createPrev(flag=1);// no wall
+// 	var distances = createDistances();//no wall
+// 	var visited = createVisited1();// wall used
+// 	//startcell defined above
+// 	distances[ startCell[0] ][ startCell[1] ] = 0;
+// 	myHeap.push([0, [startCell[0], startCell[1]]]);
+// 	cellsToAnimate.push([[startCell[0], startCell[1]], "searching"]);
+// 	while (!myHeap.isEmpty()){
+// 		//cell is grids node
+// 		var cell = myHeap.getMin();
+// 		//console.log("Min was just popped from the heap! Heap is now: " + JSON.stringify(myHeap.heap));
+// 		var i = cell[1][0];
+// 		var j = cell[1][1];
+// 		if (visited[i][j]){ continue; }
+// 		visited[i][j] = true;
+// 		cellsToAnimate.push([[i, j], "visited"]);
+// 		//end cell defined above
+// 		if (i == endCell[0] && j == endCell[1]){
+// 			pathFound = true;
+// 			break;
+// 		}
+// 		//get neighbour is a fnctn above
+// 		var neighbors = getNeighbors(i, j);
+// 		for (var k = 0; k < neighbors.length; k++){
+// 			var m = neighbors[k][0];
+// 			var n = neighbors[k][1];
+// 			if (visited[m][n]){ continue; }
+// 			var newDistance = distances[i][j] + 1;
+// 			if (newDistance < distances[m][n]){
+// 				distances[m][n] = newDistance;
+// 				prev[m][n] = [i, j];
+// 				myHeap.push([newDistance, [m, n]]);
+// 				//console.log("New cell was added to the heap! It has distance = " + newDistance + ". Heap = " + JSON.stringify(myHeap.heap));
+// 				cellsToAnimate.push( [[m, n], "searching"] );
+// 			}
+// 		}
+// 		//console.log("Cell [" + i + ", " + j + "] was just evaluated! myHeap is now: " + JSON.stringify(myHeap.heap));
+// 	}
+// 	//console.log(JSON.stringify(myHeap.heap));
+// 	// Make any nodes still in the heap "visited"
+// 	while ( !myHeap.isEmpty() ){
+// 		var cell = myHeap.getMin();
+// 		var i = cell[1][0];
+// 		var j = cell[1][1];
+// 		if (visited[i][j]){ continue; }
+// 		visited[i][j] = true;
+// 		cellsToAnimate.push( [[i, j], "visited"] );
+// 	}
+// 	// If a path was found, illuminate it
+// 	if (pathFound) {
+// 		var i = endCell[0];
+// 		var j = endCell[1];
+// 		cellsToAnimate.push( [endCell, "success"] );
+// 		while (prev[i][j] != null){
+// 			var prevCell = prev[i][j];
+// 			i = prevCell[0];
+// 			j = prevCell[1];
+// 			cellsToAnimate.push( [[i, j], "success"] );
+// 		}
+// 	}
 	
-	return pathFound;
-}
+// 	return pathFound;
+// }
 
 function AStar(start, end , object) {
 	var pathFound = false;
@@ -556,7 +566,7 @@ function AStar(start, end , object) {
 	myHeap.push([0, [start[0], start[1]]]);
 	if(!object){
 		cellsToAnimate.push( [[start[0], start[1]], "searching"] );}
-		else{
+	else{
 			cellsToAnimate.push( [[start[0], start[1]], "searching2"] );
 		}
 	while (!myHeap.isEmpty()){
@@ -567,7 +577,7 @@ function AStar(start, end , object) {
 		visited[i][j] = true;
 		if(!object){
 			cellsToAnimate.push( [[i, j], "visited"] );}
-			else{
+		else{
 				cellsToAnimate.push( [[i, j], "visited2"] );}
 			
 	   if(object){
@@ -586,6 +596,11 @@ function AStar(start, end , object) {
 			var n = neighbors[k][1];
 			if (visited[m][n]){ continue; }
 			var newDistance = distances[i][j] + 1;
+			if(cellIsAWeight(m,n,cells)){
+                newDistance= distances[i][j] + 4;
+			}
+			
+
 			if (newDistance < distances[m][n]){
 				distances[m][n] = newDistance;
 				prev[m][n] = [i, j];
@@ -619,6 +634,10 @@ function AStar(start, end , object) {
 		
 	}
 	// If a path was found, illuminate it
+	if(object) {AStar(object, end, null);}
+	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
+	objectCellsToAnimate= [];
+	pathFound=true;
 	if (pathFound) {
 		if(!object){
 			var i = end[0];
@@ -636,10 +655,8 @@ function AStar(start, end , object) {
 				objectCellsToAnimate.push([i,j]);
 		}
 	}
-	if(object) {AStar(object, end, null);}
-	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
-	objectCellsToAnimate= [];
 	return pathFound;
+	
 }
 
 function jumpPointSearch() {
@@ -671,6 +688,7 @@ function jumpPointSearch() {
 			var n = neighbors[k][1];
 			if (visited[m][n]){ continue; }
 			var newDistance = distances[i][j] + Math.abs(i - m) + Math.abs(j - n);
+			
 			if (newDistance < distances[m][n]){
 				distances[m][n] = newDistance;
 				prev[m][n] = [i, j];
@@ -688,8 +706,10 @@ function jumpPointSearch() {
 		var cell = myHeap.getMin();
 		var i = cell[1][0];
 		var j = cell[1][1];
+
 		if (visited[i][j]){ continue; }
 		visited[i][j] = true;
+		
 		cellsToAnimate.push( [[i, j], "visited"] );
 	}
 	// If a path was found, illuminate it:
@@ -697,6 +717,7 @@ function jumpPointSearch() {
 		var i = endCell[0];
 		var j = endCell[1];
 		cellsToAnimate.push( [endCell, "success"] );
+	
 		while (prev[i][j] != null){
 			var prevCell = prev[i][j];
 			x = prevCell[0];
@@ -842,7 +863,7 @@ function greedyBestFirstSearch(start, end, object) {
 	myHeap.push([0, [start[0], start[1]]]);
 	if(!object){
 		cellsToAnimate.push( [[start[0], start[1]], "searching"] );}
-		else{
+	else{
 			cellsToAnimate.push( [[start[0], start[1]], "searching2"] );
 		}
 	
@@ -854,7 +875,7 @@ function greedyBestFirstSearch(start, end, object) {
 		visited[i][j] = true;
 		if(!object){
 			cellsToAnimate.push( [[start[0], start[1]], "visited"] );}
-			else{
+		else{
 				cellsToAnimate.push( [[i,j], "visited2"] );
 			}
 			if(object){
@@ -862,10 +883,11 @@ function greedyBestFirstSearch(start, end, object) {
 				   pathFound = true;
 				   break;
 			   }
-			   }else{
+			}else{
 			   if (i == end[0] && j == end[1])
-				   pathFound = true;
+			    pathFound=true;
 				   break;
+				  
 			   }	
 
 			
@@ -897,25 +919,45 @@ function greedyBestFirstSearch(start, end, object) {
 		var j = cell[1][1];
 		if (visited[i][j]){ continue; }
 		visited[i][j] = true;
-		cellsToAnimate.push( [[i, j], "visited"] );
+		if(object)
+			cellsToAnimate.push([[i, j], "visited"]);
+		else
+				cellsToAnimate.push([[i, j], "visited2"]);
 	}
-	// If a path was found, illuminate it
-	if (pathFound) {
-		var i = endCell[0];
-		var j = endCell[1];
-		objectCellsToAnimate.push([i,j]);
-
-		while (prev[i][j] != null){
-			var prevCell = prev[i][j];
-			i = prevCell[0];
-			j = prevCell[1];
-			objectCellsToAnimate.push([i,j]);
-		}
-	}
-	if(object) {
-	   greedyBestFirstSearch(object, end, null)}
-	   objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
 	
-	   objectCellsToAnimate= [];
- 	   return pathFound;
-}
+		
+		if (pathFound) {
+			if(!object){
+			  var i = end[0];
+			  var j = end[1];}
+			  else{
+				var i = object[0];
+				var j = object[1];
+			  }
+			objectCellsToAnimate.push([i,j]);
+	
+			while (prev[i][j] != null){
+				var prevCell = prev[i][j];
+				i = prevCell[0];
+				j = prevCell[1];
+				objectCellsToAnimate.push([i,j]);
+
+			}
+		
+		
+		}
+		if(object) {
+			greedyBestFirstSearch(object, end, null)
+		 }
+			objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
+		 
+			objectCellsToAnimate= [];
+
+
+		 return pathFound;
+		
+ }
+ 
+ 
+	// If a path was found, illuminate it
+
