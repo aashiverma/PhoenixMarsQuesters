@@ -13,12 +13,18 @@ var endCell = [11, 25];
 var movingStart = false;
 var movingEnd = false;
 var movingObject = false;
-var numberOfObjects= 0;
+
 var objectCell = [11, 20];
 var createObject = false;
 var del =0;
  var objectCellsToAnimate = [];
-
+ var travellingCalled = false;
+ var movingPoint = [];
+ var movingPointIndex= false;
+ var point1 = [16,19];
+ var point2 =  /*[((startCell[0]+endCell[0])/2)+1][((startCell[1]+endCell[1])/2)+1];*/[12,13];
+ var point3 = /*[((startCell[0]+endCell[0])/2)+2][((startCell[1]+endCell[1])/2)+2];*/[14,16]
+ var point4 = /*[((startCell[0]+endCell[0])/2)+3][((startCell[1]+endCell[1])/2)+3];*/[12,17]
 function generateGrid( rows, cols ) {
     var grid = "<table>";
     for ( row = 1; row <= rows; row++ ) {
@@ -31,7 +37,17 @@ function generateGrid( rows, cols ) {
     grid += "</table>"
     return grid;
 }
+// function initialisEndPointsArray( numberOfcities) {
+// 	var endPoints =[startCell,endCell];
+// 	 for(var i=1; i<=numberOfcities; i++){
+// 		 var point = [endCell[0]+i+1, endCell[1]+i+1];
+// 		 if(startCell == point){ point = [point[0]+1,point[1]];} 
+// 		 endPoints.push(point);
+// 	 }
+// 	 return  endPoints;
+//  }
 
+//var endPoints = initialisEndPointsArray(numberOfcities);
 var myGrid = generateGrid( totalRows, totalCols);
 $( "#tableContainer" ).append( myGrid );
 
@@ -64,11 +80,44 @@ $( "td" ).mousedown(function(){
 			//console.log("Now moving end!");
 		}else if(index == objectCellIndex) {
 			movingObject= true;
+		}else if (travellingCalled){
+			var point1index = (point1[0] * (totalCols)) + point1[1];
+				var point2index= (point2[0] * (totalCols)) + point2[1];
+				var point3index= (point3[0] * (totalCols)) + point3[1];
+				var point4index= (point4[0] * (totalCols)) + point4[1];
+
+				if(index == point1index){
+					movingPointIndex= true;
+					movingPoint = point1;
+				}
+				if(index == point2index){
+					movingPointIndex= true;
+					movingPoint = point2;
+				}
+				if(index == point3index){
+					movingPointIndex= true;
+					movingPoint = point3;
+				}
+				if(index == point4index){
+					movingPointIndex= true;
+					movingPoint = point4;
+				}
+			//endPoints = initialisEndPointsArray(numberOfcities);
+			// for(var k=0; k<endPoints.length;k++){
+			// 	var m =  endPoints[k][0];
+			// 	var n = endPoints[k][1];
+			// 	PointIndex = (m * (totalCols)) + n;
+			// 	if(index == PointIndex){
+			// 		console.log("moved");
+			// 	   movingPointIndex =true;
+			// 	   movingPoint= PointIndex;
+			// 	}
+			}
 		}
 		else {
 			createWalls = true;
 		}
-	}
+	
 });
 
 $( "td" ).mouseup(function(){
@@ -76,14 +125,16 @@ $( "td" ).mouseup(function(){
 	movingStart = false;
 	movingEnd = false;
 	movingObject= false;
+	movingPointIndex= false;
 });
 
 $( "td" ).mouseenter(function() {
-	if (!createWalls && !movingStart && !movingEnd && !movingObject){ return; }
+	if (!createWalls && !movingStart && !movingEnd && !movingObject && !movingPointIndex){ return; }
     var index = $( "td" ).index( this );
     var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+	var movingPointkIndex =  (movingPoint[0] * (totalCols)) + movingPoint[1];
     if (!inProgress){
     	if (justFinished){ 
 			clearBoard( keepWalls = true );
@@ -97,8 +148,11 @@ $( "td" ).mouseenter(function() {
     		moveStartOrEnd(endCellIndex, index, "end");
 		}else if (movingObject && index != endCellIndex && index != startCellIndex){
             moveStartOrEnd(objectCellIndex, index, "object");
-		} 
-		else if (index != startCellIndex && index != endCellIndex && index !=objectCellIndex) {
+		} else if(movingPointIndex && index != endCellIndex && index != startCellIndex && index!= objectCellIndex){
+			moveStartOrEnd(movingPointkIndex, index, "ending");
+			console.log("2mouseenter");
+		}
+		else if (index != startCellIndex && index != endCellIndex && index !=objectCellIndex && index != movingPointIndex) {
     		$(this).toggleClass("wall");}
     }
 });
@@ -108,7 +162,8 @@ $( "td" ).click(function() {
     var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
-    if ((inProgress == false) && !(index == startCellIndex) && !(index == endCellIndex) && !(index == objectCellIndex)){
+	var movingPointkIndex =  (movingPoint[0] * (totalCols)) + movingPoint[1];
+	if ((inProgress == false) && !(index == startCellIndex) && !(index == endCellIndex) && !(index == objectCellIndex) && !(index == movingPointkIndex)){
     	if ( justFinished ){ 
 			clearBoard( keepWalls = true );
 			
@@ -123,7 +178,7 @@ $( "body" ).mouseup(function(){
 	movingStart = false;
 	movingEnd = false;
 	movingObject= false;
-
+	movingPointIndex = false;
 });
 
 /* ----------------- */
@@ -157,6 +212,10 @@ $( "#clearBtn" ).click(function(){
 $( "#algorithms .dropdown-item").click(function(){
 	if ( inProgress ){ update("wait"); return; }
 	algorithm = $(this).text();
+	if(algorithm == "Travelling SalesMan"){
+    //numberOfcities= 4;
+	travellingCalled= true;
+	clearBoard(keepWalls = true);}
 	updateStartBtnText();
 	console.log("Algorithm has been changd to: " + algorithm);
 });
@@ -183,17 +242,7 @@ $( "#mazes .dropdown-item").click(function(){
 		spiralMaze();
 	}else if (maze == "High Meteorite Hit Region" ){
 	   randomMaze1();
-	}else if(maze=="Traveling SalesMan"){
-		$( "#Salesman .dropdown-item").click(function(){
-			  if ( inProgress ){ update("wait"); return; }
-			  points = $(this).text();
-			 if(points=="Three"){
-  
-			  }else if(points=="Four"){
-
-			  }
-	  });
-	 }
+	}
 	console.log("Maze has been changd to: " + maze);
 });
 
@@ -243,6 +292,39 @@ function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
 	else if(startOrEnd == "end"){
     	endCell = [newCellX, newCellY];
     	//console.log("Moving end to [" + newCellX + ", " + newCellY + "]")
+	}
+	else if(startOrEnd == "ending" && travellingCalled){
+		console.log("3Moving ending to [" + newCellX + ", " + newCellY + "]")
+		        var point1index = (point1[0] * (totalCols)) + point1[1];
+				var point2index= (point2[0] * (totalCols)) + point2[1];
+				var point3index= (point3[0] * (totalCols)) + point3[1];
+				var point4index= (point4[0] * (totalCols)) + point4[1];
+	
+	             if(prevIndex == point1index)
+					 point1 = [newCellX,newCellY];
+					 
+					 if(prevIndex == point2index)
+					 point2 = [newCellX,newCellY];
+					 
+					 if(prevIndex == point3index)
+					 point3 = [newCellX,newCellY];
+					 
+					 if(prevIndex == point4index)
+					 point4 = [newCellX,newCellY];
+
+
+		// $(movingPoint).addClass("ending");
+		//  for(var k=0; k<endPoints.length; k++){
+		// 	var m =  endPoints[k][0];
+		// 	var n = endPoints[k][1];
+		// 	PointIndex = (m * (totalCols)) + n;
+		// 	if(PointIndex == prevIndex){
+		// 		console.log("yessssss" + m + " "+ n);
+		// 	   m = newCellX;
+		// 	   n = newCellY;
+		// 	   break;
+		// 	}
+		//  }
 	}
 	else if(startOrEnd == "object"){
 	   objectCell= [newCellX, newCellY];
@@ -295,6 +377,10 @@ function updateStartBtnText(){
 		$("#startBtn").html("Start JPS");
 	}else if (algorithm == "Bidirectional BFS"){
 		$("#startBtn").html("Start Bidirectional BFS");
+	}
+	else if (algorithm == "Travelling SalesMan"){
+		console.log("ts");
+		$("#startBtn").html("Start Travelling SalesMan");
 	}
 	return;
 }
@@ -388,6 +474,7 @@ function executeAlgo(){
 			var pathFound = BFS(startCell,endCell, null);
 		}
 	} else if (algorithm == "Dijkstra"){
+		
 		if(createObject)
 		{var pathFound = dijkstra(startCell,endCell, objectCell);}
 		else{
@@ -395,6 +482,7 @@ function executeAlgo(){
 		}
 
 	} else if (algorithm == "A*"){
+		//travellingCalled= true;
 		if(createObject)
 		{var pathFound = AStar(startCell,endCell, objectCell);}
 		else{
@@ -419,6 +507,8 @@ function executeAlgo(){
 			alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
 		}
 		else{var pathFound = BidirectionalBFS(startCell,endCell,objectCell)};
+	}else if (algorithm == "Travelling SalesMan"){
+	      var pathFound = draw();
 	}
 	return pathFound;
 }
@@ -431,17 +521,6 @@ function makeWall(cell){
     console.log([row, col]);
     if ((inProgress == false) && !(row == 1 && col == 1) && !(row == totalRows && col == totalCols)){
     	$(cell).toggleClass("wall");
-    }
-}
-//createBomb
-function makeBomb(cell){
-	if (!createBomb){return;}
-    var index = $( "td" ).index( cell );
-    var row = Math.floor( ( index ) / totalRows) + 1;
-    var col = ( index % totalCols ) + 1;
-    console.log([row, col]);
-    if ((inProgress == false) && !(row == 1 && col == 1) && !(row == totalRows && col == totalCols)){
-    	$(cell).toggleClass("object");
     }
 }
 
@@ -547,6 +626,10 @@ async function animateCells(){
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+	var point1index = (point1[0] * (totalCols)) + point1[1];
+				var point2index= (point2[0] * (totalCols)) + point2[1];
+				var point3index= (point3[0] * (totalCols)) + point3[1];
+				var point4index= (point4[0] * (totalCols)) + point4[1];
 	//var weightCellIndex = num.hasClass
 	var delay = getDelay();
 	for (var i = 0; i < cellsToAnimate.length; i++){
@@ -554,7 +637,9 @@ async function animateCells(){
 		var x = cellCoordinates[0];
 		var y = cellCoordinates[1];
 		var num = (x * (totalCols)) + y;
-		if (num == startCellIndex || num == endCellIndex || (num == objectCellIndex && createObject == true) || cellIsAWeight(x, y, cells)){ continue; }
+		if (num == startCellIndex || num == endCellIndex || (num == objectCellIndex && createObject == true) ||
+		 cellIsAWeight(x, y, cells) || (travellingCalled==true && (num==point1index || num==point2index || 
+			num == point3index || num == point4index))){ continue; }
 		var cell = cells[num];
 		var colorClass = cellsToAnimate[i][1];
 
@@ -620,6 +705,7 @@ function clearBoard(keepWalls ){
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
+	var movingPointI = (movingPoint[0] * (totalCols))+ movingPoint[1];
 	for (var i = 0; i < cells.length; i++){
 			isWall = $( cells[i] ).hasClass("wall");
 			isWeight = $( cells[i] ).hasClass("weight");
@@ -640,6 +726,31 @@ function clearBoard(keepWalls ){
 						 createObject= false;
 					 }
 			 	
+			 }else if(travellingCalled){
+				var point1index = (point1[0] * (totalCols)) + point1[1];
+				var point2index= (point2[0] * (totalCols)) + point2[1];
+				var point3index= (point3[0] * (totalCols)) + point3[1];
+				var point4index= (point4[0] * (totalCols)) + point4[1];
+
+				// endPoints = initialisEndPointsArray(numberOfcities
+				//  for(var k=0; k<endPoints.length;k++){
+				// 	 var m =  endPoints[k][0];
+				// 	 var n = endPoints[k][1];
+				// 	 var PointIndex = (m * (totalCols)) + n;
+				// 	 if(i == PointIndex){
+				// 		$(cells[i]).addClass("ending"); 
+				// 	}
+				//  }
+				// 	}				
+				// else if(i == movingPointI){
+				// 	console.log("did something");
+				// 	$(cells[i]).addClass("ending"); 
+				// }
+               if(i == point1index){$(cells[i]).addClass("end"); }
+			   if(i == point2index) {$(cells[i]).addClass("end"); }
+			   if(i == point3index){$(cells[i]).addClass("end"); }
+			   if( i == point4index) {$(cells[i]).addClass("end"); }
+
 			 }
 			 else if ( keepWalls && isWall ){ 
 				$(cells[i]).addClass("wall"); 

@@ -480,7 +480,9 @@ function dijkstra(start,end,object) {
 		}
 	}
 	if(object){dijkstra(object,end, null)}
-	
+	if(travellingCalled){
+		return objectCellsToAnimate;
+	}
 	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
 	objectCellsToAnimate= [];
 	return pathFound;
@@ -859,6 +861,7 @@ function greedyBestFirstSearch(start, end, object) {
 	var prev = createPrev();
 	var costs = createDistances();
 	var visited = createVisited();
+	objectCellsToAnimate = [];
 	costs[ start[0] ][ start[1] ] = 0;
 	myHeap.push([0, [start[0], start[1]]]);
 	if(!object){
@@ -945,6 +948,9 @@ function greedyBestFirstSearch(start, end, object) {
 			}
 		
 		
+		}
+		if(travellingCalled){
+			return objectCellsToAnimate;
 		}
 		if(object) {
 			greedyBestFirstSearch(object, end, null)

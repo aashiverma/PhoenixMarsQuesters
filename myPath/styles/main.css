@@ -130,8 +130,9 @@ ul {
 }
 
 .end {
-	background-color: red;
+	background-color: rgb(204, 67, 181);
 	border-color:white;
+	
 }
 
 #bigTableContainer {
