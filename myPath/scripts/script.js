@@ -535,7 +535,7 @@ function executeAlgo(){
 		else if( del ==1  ){
 			alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
 		}
-		else{var pathFound = BidirectionalBFS(startCell,endCell,objectCell)};
+		else{var pathFound = BidirectionalBFS()};
 	}else if (algorithm == "Travelling SalesMan"){
 	      var pathFound = draw();
 	}

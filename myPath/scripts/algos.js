@@ -108,10 +108,9 @@ function BFS(start, end ,object){
 	return pathFound;
 }
 function BidirectionalBFS(){
-	
     var pathFound = false;
-    let startQueue = new Queue();
-    let endQueue = new Queue();
+    var startQueue = new Queue();
+    var endQueue = new Queue();
 
    // let visitArray = [];
    var visitedS = createVisited();
@@ -130,38 +129,28 @@ function BidirectionalBFS(){
     visitedE[ endCell[0] ][ endCell[1] ] = true;
     
     var intersectNode = [];
-    while ( !startQueue.empty()   && !endQueue.empty() ){
+    while ( !startQueue.empty()   || !endQueue.empty() ){
 			   
-	        	var cell = startQueue.dequeue();
-                var r = cell[0];
-		        var c = cell[1];
-                cellsToAnimate.push( [[r,c], "visited" ]);
-                var  neighborNodes = getNeighbors(r, c);
+	        	var cellS = startQueue.dequeue();
+                var a = cellS[0];
+		        var b = cellS[1];
+                cellsToAnimate.push( [[a,b], "visited" ]);
+                var  neighborNodes = getNeighbors(a, b);
                 for (var k=0; k<neighborNodes.length; k++){
-                   // if(n.visited1 == false && !n.isWall()){
-                        // startQueue.enqueue(n);
-                        // n.prev = node;
-                        // n.visited1 = true;
-                        // visitArray.push(n);
-                        // if(n.visited2 == true){
-                        //     return [visitArray, true];
-                        // }
                         var m = neighborNodes[k][0];
                         var n = neighborNodes[k][1];
                     if ( visitedS[m][n] ) { continue ;}
                     visitedS[m][n] = true;
-                    prevS[m][n] = [r, c];
-					if(visitedE[m][n]) {intersectNode = neighborNodes[k]; pathFound= true;
-						console.log([m,n]);
-						break;}
-
-
-					
+                    prevS[m][n] = [a, b];
+                 
+					if(visitedE[m][n]) {intersectNode = [m,n];
+						console.log(prevE[m][n]);
+						pathFound= true;
+                        break;}
                     cellsToAnimate.push( [neighborNodes[k], "searching"] );
-					startQueue.enqueue(neighborNodes[k])
-					
+                    startQueue.enqueue(neighborNodes[k])
 					}
-					if(pathFound==true) break;
+			  
                 var  cell = endQueue.dequeue();
                 var r = cell[0];
 		        var c = cell[1];
@@ -169,212 +158,77 @@ function BidirectionalBFS(){
                 
                 var neighborNodes2 = getNeighbors(r, c);
                 for(var k =0; k<neighborNodes2.length; k++){
-                    // if(n.visited2 == false && !n.isWall()){
-                    //     endQueue.enqueue(n);
-                    //     n.next = node;
-                    //     n.visited2 = true;
-                    //     visitArray.push(n);
-                    //     if(n.visited1 == true){
-                    //         return [visitArray, true];
-                    //     }
+                    
                     var m = neighborNodes2[k][0];
                         var n = neighborNodes2[k][1];
                     if ( visitedE[m][n] ) { continue ;}
                     visitedE[m][n] = true;
+
                     prevE[m][n] = [r, c];
-					if(visitedS[m][n]) {intersectNode = neighborNodes2[k]; pathFound=true;
-						console.log("inter found"); break;}
+                  
+					if(visitedS[m][n]) {intersectNode = [m,n]; pathFound=true;
+                        console.log("inter found i end"); 
+                        break;}
                     cellsToAnimate.push( [neighborNodes2[k], "searching"] );
                     endQueue.enqueue(neighborNodes2[k]);
 					}
-					if(pathFound) break;
+                    if(pathFound) 
+                    {   break;}
                 }
+               
                 while ( !startQueue.empty() ){
                     var cell = startQueue.dequeue();
-                    var r = cell[0];
-                    var c = cell[1];
-                    cellsToAnimate.push( [[r,c], "visited"] );
+                    var l= cell[0];
+                    var y = cell[1];
+                    cellsToAnimate.push( [[l,y], "visited"] );
                 }
                 while ( !endQueue.empty() ){
                     var cell = endQueue.dequeue();
-                    var r = cell[0];
-                    var c = cell[1];
-                    cellsToAnimate.push( [[r,c], "visited"] );
+                    var l = cell[0];
+                    var y = cell[1];
+                    cellsToAnimate.push( [[l,y], "visited"] );
                 }
-		   if(intersectNode != null)
-		   
-		   shortestPathBidirectional(startCell, endCell, intersectNode,prevS, prevE);  
-		   
-			
-		   return pathFound;
+           if(intersectNode != null){
+           shortestPathBidirectional(startCell, endCell, intersectNode,prevS, prevE);  
+                      }
+                      		   return pathFound;
 		   
            
         }
    
     function shortestPathBidirectional(startNode, endNode, intersectNode, prevS, prevE){
-		
-		
-    //var path = [];
+  
     var nodeS = intersectNode;
     var nodeE = intersectNode;
         var r = intersectNode[0];
 		var c = intersectNode[1];
-		// var startNode = startNode;
-		// var endNode = endNode;
-		// var prevS = prevS;
-		// var prevE = prevE;
-	//	while (prev[r][c] != null){
-	var flag = 0;
-	var flag2 =0;
-    while( prevS[r][c] != null &&  prevE[r][c] != null /*nodeS != startNode || nodeE != endNode*/){
-        var r = intersectNode[0];
-		var c = intersectNode[1];
-		console.log([r,c]);
-        if(nodeS != startNode && flag==0){
+		cellsToAnimate.push( [[r, c], "success"] );
+	
+    while( prevS[r][c] != null ){
+        if(nodeS != startNode && prevS[r][c]!= null){
             var prevCell = prevS[r][c];
 			r = prevCell[0];
 			c = prevCell[1];
 			cellsToAnimate.push( [[r, c], "success"] );
-			
-           // path.push(nodeS);
+
             nodeS = prevCell ;
 		}
-		if( startNode){
-			flag= 1;
-		}
+	}
+	var r = intersectNode[0];
+	var c = intersectNode[1];
+     while(prevE[r][c]!= null){
+        if(nodeE != endNode && prevE[r][c] != null){
+            console.log("yahan");
+            var prevCell = prevE[r][c];
+			var r = prevCell[0];
+            var c = prevCell[1];
+            cellsToAnimate.push( [[r, c], "success"] );
+            nodeE = prevCell;
+        }
+	 }
+	}
 
 
-		for( var k=0; k<prevE.length; k++){
-			console.log( prevE[k][0] +" "+ prevE[k][1]);
-		}
-        if( prevE[r,c] != null && nodeE != endNode && flag2==0){
-			var prevCel = prevE[r][c];
-			if( prevCel != null){			
-				r = prevCel[0];
-				c = prevCel[1];
-			}
-           
-			cellsToAnimate.push( [[r, c], "success"] );
-			console.log(prevCel[r,c]);
-//path.push(nodeE);
-            nodeE = prevCel;
-		}
-		if( endNode){
-			flag2 =1 ;
-		}
-		
-
-    }
-    //return path;
-}
-
-// function backtrace(node) {
-//     var path = [[node.x, node.y]];
-//     while (node.parent) {
-//         node = node.parent;
-//         path.push([node.x, node.y]);
-//     }
-//     return path.reverse();
-// }
-// function biBacktrace(nodeA, nodeB) {
-//     var pathA = backtrace(nodeA),
-//      var  pathB = backtrace(nodeB);
-//     return pathA.concat(pathB.reverse());
-// }
-// function BirecBFS(){
-// 	var pathFound = false;
-// 	var startQueue = new Queue();
-// 	var endQueue = new Queue();
-// 	var prevS = createPrev();
-// 	var prevE = createPrev();
-// 	var visitedS = createVisited();
-// 	var visitedE = createVisited();
-// 	endQueue.enqueue( endCell );
-//     startQueue.enqueue(startCell);
-// 	cellsToAnimate.push(startCell, "searching");
-//     cellsToAnimate.push(endCell,"searching");
-// 	visitedS[ startCell[0] ][ startCell[1] ] = true;
-// 	visitedE[ endCell[0] ][ endCell[1] ] = true;
-// 	var intersectNode = [];
-// 	while ( !startQueue.empty() && !endQueue.empty() ){
-		// var cell = Queue.dequeue();
-		// var r = cell[0];
-		// var c = cell[1];
-		// cellsToAnimate.push( [cell, "visited"] );
-		// if (r == endCell[0] && c == endCell[1]){
-		// 	pathFound = true;
-		// 	break;
-		// }
-		// // Put neighboring cells in queue
-		// var neighbors = getNeighbors(r, c);
-		// for (var k = 0; k < neighbors.length; k++){
-		// 	var m = neighbors[k][0];
-		// 	var n = neighbors[k][1];
-		// 	if ( visited[m][n] ) { continue ;}
-		// 	visited[m][n] = true;
-		// 	prev[m][n] = [r, c];
-		// 	cellsToAnimate.push( [neighbors[k], "searching"] );
-		// 	myQueue.enqueue(neighbors[k]);
-		
-		
-		// var path1 = BFS(visitedS, startQueue, prevS);
-		// var path2 = BFS(visitedE, endQueue, prevE);
-
-		// intersectNode = isIntersecting(visitedS, visitedE);
-	//	path2 = path2.reverse(); 
-        		
-        // if (pathF) {
-		// 	var r = endCell[0];
-		// 	var c = endCell[1];
-		// 	cellsToAnimate.push( [[r, c], "success"] );
-		// 	while (prev[r][c] != null){
-		// 		var prevCell = prev[r][c];
-		// 		r = prevCell[0];
-		// 		c = prevCell[1];
-		// 		cellsToAnimate.push( [[r, c], "success"] );
-		// 	}
-		// }
-		// return pathFound;
-//	}
-	
-	// Make any nodes still in the queue "visited"
-// 	while ( !myQueue.empty() ){
-// 		var cell = myQueue.dequeue();
-// 		var r = cell[0];
-// 		var c = cell[1];
-// 		cellsToAnimate.push( [cell, "visited"] );
-// 	}
-// 	// If a path was found, illuminate it
-// 	if (pathFound) {
-// 		var r = endCell[0];
-// 		var c = endCell[1];
-// 		cellsToAnimate.push( [[r, c], "success"] );
-// 		while (prev[r][c] != null){
-// 			var prevCell = prev[r][c];
-// 			r = prevCell[0];
-// 			c = prevCell[1];
-// 			cellsToAnimate.push( [[r, c], "success"] );
-// 		}
-// 	}
-// 	return pathFound;
-// }
-// function isIntersecting(visitedS, visitedE) 
-//    { 
-//             var intersectNode = -1; var i=0; var j=0;
-//         while(i<visitedS.length && j<visited.length)
-//       { 
-//         // if a cell is visited by both front 
-//         // and back BFS search return that cell 
-// 		// else return empty cell
-		
-//         if(visitedS[i] == visitedE[j]) 
-// 			return i;
-			
-// 		  i++;
-// 		  j++;
-//        } 
-//     return []; 
-// };
 
 function dijkstra(start,end,object) {
 	
@@ -387,11 +241,10 @@ function dijkstra(start,end,object) {
 	
 	
 	var visited = createVisited();
-	
-	//startcell defined above
+
 	distances[ start[0] ][ start[1] ] = 0;
 	myHeap.push([0, [start[0], start[1]]]);
-	//cellsToAnimate.push([[start[0], start[1]], "searching"]);
+
 	if(!object){
 		cellsToAnimate.push( [[start[0], start[1]], "searching"] );}
 		else{
@@ -488,73 +341,7 @@ function dijkstra(start,end,object) {
 	return pathFound;
 }
 
-// function dijkstra1() {
-	
-// 	var pathFound = false;
-// 	var myHeap = new minHeap();//no wall
-// 	var prev = createPrev(flag=1);// no wall
-// 	var distances = createDistances();//no wall
-// 	var visited = createVisited1();// wall used
-// 	//startcell defined above
-// 	distances[ startCell[0] ][ startCell[1] ] = 0;
-// 	myHeap.push([0, [startCell[0], startCell[1]]]);
-// 	cellsToAnimate.push([[startCell[0], startCell[1]], "searching"]);
-// 	while (!myHeap.isEmpty()){
-// 		//cell is grids node
-// 		var cell = myHeap.getMin();
-// 		//console.log("Min was just popped from the heap! Heap is now: " + JSON.stringify(myHeap.heap));
-// 		var i = cell[1][0];
-// 		var j = cell[1][1];
-// 		if (visited[i][j]){ continue; }
-// 		visited[i][j] = true;
-// 		cellsToAnimate.push([[i, j], "visited"]);
-// 		//end cell defined above
-// 		if (i == endCell[0] && j == endCell[1]){
-// 			pathFound = true;
-// 			break;
-// 		}
-// 		//get neighbour is a fnctn above
-// 		var neighbors = getNeighbors(i, j);
-// 		for (var k = 0; k < neighbors.length; k++){
-// 			var m = neighbors[k][0];
-// 			var n = neighbors[k][1];
-// 			if (visited[m][n]){ continue; }
-// 			var newDistance = distances[i][j] + 1;
-// 			if (newDistance < distances[m][n]){
-// 				distances[m][n] = newDistance;
-// 				prev[m][n] = [i, j];
-// 				myHeap.push([newDistance, [m, n]]);
-// 				//console.log("New cell was added to the heap! It has distance = " + newDistance + ". Heap = " + JSON.stringify(myHeap.heap));
-// 				cellsToAnimate.push( [[m, n], "searching"] );
-// 			}
-// 		}
-// 		//console.log("Cell [" + i + ", " + j + "] was just evaluated! myHeap is now: " + JSON.stringify(myHeap.heap));
-// 	}
-// 	//console.log(JSON.stringify(myHeap.heap));
-// 	// Make any nodes still in the heap "visited"
-// 	while ( !myHeap.isEmpty() ){
-// 		var cell = myHeap.getMin();
-// 		var i = cell[1][0];
-// 		var j = cell[1][1];
-// 		if (visited[i][j]){ continue; }
-// 		visited[i][j] = true;
-// 		cellsToAnimate.push( [[i, j], "visited"] );
-// 	}
-// 	// If a path was found, illuminate it
-// 	if (pathFound) {
-// 		var i = endCell[0];
-// 		var j = endCell[1];
-// 		cellsToAnimate.push( [endCell, "success"] );
-// 		while (prev[i][j] != null){
-// 			var prevCell = prev[i][j];
-// 			i = prevCell[0];
-// 			j = prevCell[1];
-// 			cellsToAnimate.push( [[i, j], "success"] );
-// 		}
-// 	}
-	
-// 	return pathFound;
-// }
+
 
 function AStar(start, end , object) {
 	var pathFound = false;
@@ -945,25 +732,18 @@ function greedyBestFirstSearch(start, end, object) {
 				j = prevCell[1];
 				objectCellsToAnimate.push([i,j]);
 
-			}
-		
-		
+			}		
 		}
-		if(travellingCalled){
-			return objectCellsToAnimate;
-		}
+
 		if(object) {
 			greedyBestFirstSearch(object, end, null)
 		 }
 			objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
 		 
 			objectCellsToAnimate= [];
-
-
-		 return pathFound;
-		
+		 return pathFound;		
  }
  
  
-	// If a path was found, illuminate it
+
 

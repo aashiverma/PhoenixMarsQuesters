@@ -6,7 +6,7 @@ var fitness = [];
 
 var recordDistance = Infinity;
 var bestEver= [];
-var currentBest;
+//var currentBest;
 
 function createOrderandPopulation(){
   var order = [];
@@ -123,12 +123,16 @@ function swap(a, i, j) {
 
 function calcDistance(points, order) {
   var sum = 0;
-  for (var i = 0; i < order.length; i++) {
+  for (var i = 1; i < order.length; i++) {
     var cityAIndex = order[i];
     var cityA = points[cityAIndex];
-    var cityBIndex = order[i + 1];
+    var cityBIndex = order[i-1];
     var cityB = points[cityBIndex];
-    var d = getDistance(cityA[0], cityA[1], cityB[0], cityB[1]);
+    var m = cityA[0];
+    var  n = cityA[1];
+    var l= cityB[0];
+    var k = cityB[1];
+    var d = getDistance(m,n,l,k/*cityA[0], cityA[1], cityB[0], cityB[1]*/);
    // var d = dist(cityA[0], cityA[1], cityB[0], cityB[1]);
     sum += d;
   }
@@ -145,16 +149,15 @@ function getDistance(xA, yA, xB, yB) {
 function calculateFitness() {
     var currentRecord = Infinity;
     for (var i = 0; i < population.length; i++) {
-        console.log(/*population[i].length + " "+*/ population.length);
-      var d =  2;  /* calcDistance(endPoints, population[i]);*/
+      var d =   calcDistance(endPoints, population[i]);
       if (d < recordDistance) {
         recordDistance = d;
         bestEver = population[i];
       }
-      if (d < currentRecord) {
-        currentRecord = d;
-        currentBest = population[i];
-      }
+      // if (d < currentRecord) {
+      //   currentRecord = d;
+      //   currentBest = population[i];
+      // }
   
       // This fitness function has been edited from the original video
       // to improve performance, as discussed in The Nature of Code 9.6 video,
