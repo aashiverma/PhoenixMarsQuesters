@@ -231,20 +231,49 @@ $( "#mazes .dropdown-item").click(function(){
 	if ( inProgress ){ update("wait"); return; }
 	maze = $(this).text();
 	if (maze == "Random" ){
-		randomMaze();
+		if( del ==1){
+			clearBoard1(keepWeight= false);
+			randomMaze();
+		}
+		else{
+		randomMaze();}
 	} else if (maze == "Recursive Division"){
-		recursiveDivMaze(null);
+		if( del ==1){
+			clearBoard1(keepWeight= false);
+			recursiveDivMaze(null);
+		}
+		else{
+		recursiveDivMaze(null);}
 	} else if (maze == "Recursive Division (Vertical Skew)"){
-		recursiveDivMaze("VERTICAL");
+		if( del ==1){
+			clearBoard1(keepWeight= false);
+			recursiveDivMaze("VERTICAL");
+		}
+		else{
+		recursiveDivMaze("VERTICAL");}
 	} else if (maze == "Recursive Division (Horizontal Skew)"){
-		recursiveDivMaze("HORIZONTAL");
+		if( del ==1){
+			clearBoard1(keepWeight= false);
+			recursiveDivMaze("HORIZONTAL");
+		}
+		else
+		   recursiveDivMaze("HORIZONTAL");
 	} else if (maze == "Simple Spiral"){
-		spiralMaze();
+
+		if( del ==1){
+			clearBoard1(keepWeight= false);
+			spiralMaze();
+		}
+		else{
+		spiralMaze();}
 	}else if (maze == "High Meteorite Hit Region" ){
+		
 	   randomMaze1();
+
 	}
 	console.log("Maze has been changd to: " + maze);
 });
+
 
 	
 		// let innerHTML = document.getElementById("startButtonAddObject").innerHTML;
@@ -762,7 +791,7 @@ function clearBoard(keepWalls ){
 
 function clearBoard1(keepWeight ){
 	
-	//
+	keepWalls= false;
 	var cells = $("#tableContainer").find("td");
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
@@ -788,7 +817,7 @@ function clearBoard1(keepWeight ){
 					 }
 			 	
 			 }
-			 else if (  isWall ){ 
+			 else if ( keepWalls && isWall ){ 
 				$(cells[i]).addClass("wall"); 
 			}
 			
