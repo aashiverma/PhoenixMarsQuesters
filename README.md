@@ -1,72 +1,50 @@
-# PheonixMarsQuesters
-Mars Colonization Project. Path Finder  web Application
+# PHEONIX MARS QUESTERS (Mars Colonization Project)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Our project is a shortest path finding  web Application based on the theme "MARS COLONIZATION".
+This project was build to establish a permanent human settlement on Mars.
 
-## Available Scripts
+What can it do?
+Our Pheonix Mars Quester is a mars rover which finds the shortest path between two points while avoiding obstacles on the way.
 
-In the project directory, you can run:
+How it works?
+It finds the shortest path using the algorithm selected by the user.
 
-### `npm start`
+Meet The Algorithms
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The application supports the following algorithms :-
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. Dijkstra's Algorithm (weighted): the father of pathfinding algorithms; guarantees the shortestpath
 
-### `npm test`
+2. A Search* (weighted): arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Greedy Best-first Search (weighted): a faster, more heuristic-heavy version of A*; does not  guarantee the shortest path
 
-### `npm run build`
+4. Breath-first Search (unweighted): a great algorithm; guarantees the shortest path
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. Depth-first Search (unweighted): a very bad algorithm for pathfinding; does not guarantee the     shortest path
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+6. Bi-directional BFS : breath first search algorithm which searches bidirectionally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+7. Jump Point search : jump point search (JPS) is an optimization to the A* search algorithm for uniform-cost grids.
 
-### `npm run eject`
+8. Travelling Salesman : gives shortest possible route that visits every city/Node exactly once and returns to the starting point.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+MAZES
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+There are the following mazes :-
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Random (recursive backtracking)
+2. Recursive Division
+3. Recursive Division (horizontal skew)
+4. Recursive Division (vertical skew)
+5. Simple Spiral
+6. High Meteorite Hit Region
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+All the mazes are implemented using recursion and bactracking
 
-## Learn More
+HIGH METEORITE HIT REGION 
+Meteorite hit is very usual on planets like mars . The meteorite hit region is high risk region so our rover must avoid travelling through that region . It needs to decide to travel through such a path which might not be the shortest but contains least amount of hits in its way as our ultimate goal is to find the shortest path so it might have to face certain amount of risks. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+WATER
+The most important thing required for human settlement on mars is WATER. So, if our rover finds the presence of water on mars  prioritizing the need of water it travles through  water even if it may not provide the shortest path between our start node and end node. 
 
