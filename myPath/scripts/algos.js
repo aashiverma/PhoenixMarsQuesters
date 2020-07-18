@@ -48,9 +48,9 @@ function AStar(start, end , object) {
 			var n = neighbors[k][1];
 			if (visited[m][n]){ continue; }
 			var newDistance = distances[i][j] + 1;
-			// if(cellIsAWeight(m,n,cells)){
-            //     newDistance= distances[i][j] + 4;
-			// }
+			if(cellIsAWeight(m,n,cell)){
+                newDistance= distances[i][j] + 4;
+			}
 			if (newDistance < distances[m][n]){
 				distances[m][n] = newDistance;
 				prev[m][n] = [i, j];
@@ -702,10 +702,19 @@ function greedyBestFirstSearch(start, end, object) {
 			var n = neighbors[k][1];
 			if (visited[m][n]){ continue; }
 			if(object){
-			var newCost = Math.abs(object[0] - m) + Math.abs(object[1] - n);}
+			var newCost = Math.abs(object[0] - m) + Math.abs(object[1] - n);
+			if(cellIsAWeight(m,n,cell)){
+				var newCost = Math.abs(object[0] - m) + Math.abs(object[1] - n)+4;
+			}
+		}
 			else{
 				var newCost = Math.abs(end[0] - m) + Math.abs(end[1] - n);
+				if(cellIsAWeight(m,n,cell)){
+					var newCost = Math.abs(end[0] - m) + Math.abs(end[1] - n)+4;
+				}
 			}
+
+			
 			if (newCost < costs[m][n]){
 				prev[m][n] = [i, j];
 				costs[m][n] = newCost;

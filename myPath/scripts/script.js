@@ -13,7 +13,7 @@ var endCell = [11, 25];
 var movingStart = false;
 var movingEnd = false;
 var movingObject = false;
-
+var counter =0;
 var objectCell = [11, 20];
 var createObject = false;
 var del =0;
@@ -204,7 +204,10 @@ $( "#clearBtn" ).click(function(){
 
 });
 
-
+document.getElementById("skipButton").onclick = () => {
+	document.getElementById("tutorial").style.display = "none";
+  // $(this).toggleButtons();
+  }
 /* --------------------- */
 /* --- NAV BAR MENUS --- */
 /* --------------------- */

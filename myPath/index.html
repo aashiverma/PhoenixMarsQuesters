@@ -119,10 +119,10 @@
 
  	<div class="d-flex flex-row m-4 justify-content-center">
 		<!-- Button trigger for tutorial modal -->
-		<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#exampleModalLong">Tutorial</button>
+		<!-- <button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#exampleModalLong">Tutorial</button> -->
 
 		<!-- Tutorial Modal -->
-		<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<!-- <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -210,7 +210,7 @@
 		      </div>
 		    </div>
 		  </div>
-		</div>
+		</div>-->
 		<!-- Button Trigger for Info Modal -->
 		<button type="button" class="btn btn-outline-success btn-circle btn-lg" data-toggle="modal" data-target="#infoModal" id="infoModalBtn">Info</button>
 
@@ -375,17 +375,39 @@
 		  </div>
 		</div>
 	</div>
+	<div id="tutorial">
+		
+		
+		
+		<!-- <div id="tutorialCounter">1/9</div>
+		<img id="mainTutorialImage" src="public/styling/c_icon.png"> -->
+		<h3>Welcome to PHEONIX MARS QUESTER!</h3>
+		<h6>This short tutorial will walk you through all of the features of this application. If you want to dive right in, feel free to press the "Skip Tutorial" button below.</h6>
 
-	<div class ="d-flex flex-column" id="results">
+		
+		<h6>INSTRUCTIONS</h6>
+		<p>Choose any algorithm<br>Click on start button to get the path between start node and end node<br>Click on clear board button to clear the board</p>
+		<!-- <h6>ALGORITHMS</h6>
+		<P>You can choose any algorithm and our mars rover will locate a path between start and end node with the help of that algorithm</P> -->
+		<h6>WATER</h6>
+		<p>If water is present on the land of mars between start and end node the rover will locate the water and provide its information at the end cell.Once you diplace the water outside the start and end node it will be removed from the grid. </p>
+		<!-- <h6>MAZES</h6>
+		<p> Select any maze to make the path interestiong by clicking on maze button and choosing any one of the options.</p> -->
+		<h6>METEORITE AND WALLS  </h6>
+		<P>Drag the cursor to create the walls which are impenetrable, meaning that a path cannot cross through them. Select high meteorite hit region maze to create Meteorites which are however, are not impassable. They are simply more dangerous to move through . In this application, moving through a meteorite has a "cost" of 4. </P>
+		<button id="skipButton" class="btn btn-default navbar-btn" data-toggle="model" type="button">Skip Tutorial</button>
+	  </div>
+
+	<!-- <div class ="d-flex flex-column" id="results">
 		<div class="d-flex justify-content-center"> 
 			<i id="resultsIcon" class="fas fa-exclamation"></i>
 		</div>
-		<div id="duration" class="d-flex justify-content-center"> 
+		<div id="duration" > 
 	 		Please select an algorithm and press start.
 	 	</div>
 	 	<div id="length" class="d-flex justify-content-center"> 	
 	 	</div>	 	
-	</div>
+	</div> -->
 
 	<script src="bootstrap/js/jquery-3.5.1.slim.min.js"></script>
     <script src="bootstrap/js/popper.min.js"></script>
