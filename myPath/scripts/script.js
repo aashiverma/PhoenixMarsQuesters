@@ -21,10 +21,10 @@ var del =0;
  var travellingCalled = false;
  var movingPoint = [];
  var movingPointIndex= false;
- var point1 = [16,19];
- var point2 =  /*[((startCell[0]+endCell[0])/2)+1][((startCell[1]+endCell[1])/2)+1];*/[12,13];
- var point3 = /*[((startCell[0]+endCell[0])/2)+2][((startCell[1]+endCell[1])/2)+2];*/[14,16]
- var point4 = /*[((startCell[0]+endCell[0])/2)+3][((startCell[1]+endCell[1])/2)+3];*/[12,17]
+ var point1 = [11,29];
+ var point2 =  /*[((startCell[0]+endCell[0])/2)+1][((startCell[1]+endCell[1])/2)+1];*/[11,33];
+ var point3 = /*[((startCell[0]+endCell[0])/2)+2][((startCell[1]+endCell[1])/2)+2];*/[11,36]
+ var point4 = /*[((startCell[0]+endCell[0])/2)+3][((startCell[1]+endCell[1])/2)+3];*/[11,47]
 function generateGrid( rows, cols ) {
     var grid = "<table>";
     for ( row = 1; row <= rows; row++ ) {
@@ -113,10 +113,11 @@ $( "td" ).mousedown(function(){
 			// 	   movingPoint= PointIndex;
 			// 	}
 			}
-		}
-		else {
-			createWalls = true;
-		}
+			else {
+				createWalls = true;
+			}
+	}
+		
 	
 });
 
@@ -539,7 +540,8 @@ function executeAlgo(){
 			alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
 		}
 		else{var pathFound = BidirectionalBFS()};
-	}else if (algorithm == "Travelling SalesMan"){
+	}
+	else if (algorithm == "Travelling SalesMan"){
 	      var pathFound = draw();
 	}
 	return pathFound;

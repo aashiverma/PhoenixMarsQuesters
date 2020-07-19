@@ -43,7 +43,7 @@ function draw() {
   endPoints= [endCell,point1, point2, point3, point4];
 
   //background(0);
-   createOrderandPopulation();
+  createOrderandPopulation();
   // GA
   calculateFitness();
   normalizeFitness();
@@ -90,7 +90,7 @@ function shuffle(a, num) {
     var indexA = Math.floor(Math.random() * a.length);
     var indexB = Math.floor(Math.random() * a.length);
     swap(a, indexA, indexB);
-  // console.log(a);
+   //console.log(a);
   }
   return a;
 }
@@ -123,50 +123,57 @@ function swap(a, i, j) {
 
 function calcDistance(points, order) {
   var sum = 0;
-  for (var i = 1; i < order.length; i++) {
+  for (var i = 0; i <=order.length-2; i++) {
     var cityAIndex = order[i];
     var cityA = points[cityAIndex];
-    var cityBIndex = order[i-1];
+   // console.log(cityA[0]+" "+cityA[1]);
+    var cityBIndex = order[i+1];
     var cityB = points[cityBIndex];
     var m = cityA[0];
-    var  n = cityA[1];
-    var l= cityB[0];
+    var n = cityA[1];
+    var l = cityB[0];
     var k = cityB[1];
     var d = getDistance(m,n,l,k/*cityA[0], cityA[1], cityB[0], cityB[1]*/);
    // var d = dist(cityA[0], cityA[1], cityB[0], cityB[1]);
     sum += d;
   }
+ // console.log(sum);
   return sum;
 }
+
 function getDistance(xA, yA, xB, yB) { 
 	var xDiff = xA - xB; 
 	var yDiff = yA - yB; 
 
-	return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+	return Math.abs(xDiff  + yDiff);
 }
 
 
 function calculateFitness() {
     var currentRecord = Infinity;
     for (var i = 0; i < population.length; i++) {
-      var d =   calcDistance(endPoints, population[i]);
+      //console.log(population[0]);
+
+      var d =  calcDistance(endPoints, population[i]);
+      //console.log(d);
       if (d < recordDistance) {
         recordDistance = d;
         bestEver = population[i];
+        //console.log(population[i]);
       }
       // if (d < currentRecord) {
       //   currentRecord = d;
       //   currentBest = population[i];
-      // }
+   // }
   
       // This fitness function has been edited from the original video
       // to improve performance, as discussed in The Nature of Code 9.6 video,
       // available here: https://www.youtube.com/watch?v=HzaLIO9dLbA
       fitness[i] = 1 / (Math.pow(d, 8) + 1);
     }
-  }
+  } 
   
-  function normalizeFitness() {
+function normalizeFitness() {
     var sum = 0;
     for (var i = 0; i < fitness.length; i++) {
       sum += fitness[i];
