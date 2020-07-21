@@ -69,6 +69,7 @@ ul {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: contain;
+	background-color: wheat;
 } 
 
 
@@ -120,7 +121,7 @@ ul {
 }
 .success {
 	transition : background-color 0.08s ease-in-out;
-	background-color: #ffee31;
+	background-color: mediumslateblue;
 	border-color: white;
 }
 
@@ -171,7 +172,7 @@ ul {
 }
 
 #infoModalBtn {
-	margin-left: 20px;
+	margin-left: 290px;
 }
 
 .fun-fact {

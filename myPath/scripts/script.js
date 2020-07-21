@@ -21,10 +21,10 @@ var del =0;
  var travellingCalled = false;
  var movingPoint = [];
  var movingPointIndex= false;
- var point1 = [11,29];
- var point2 =  /*[((startCell[0]+endCell[0])/2)+1][((startCell[1]+endCell[1])/2)+1];*/[11,33];
- var point3 = /*[((startCell[0]+endCell[0])/2)+2][((startCell[1]+endCell[1])/2)+2];*/[11,36]
- var point4 = /*[((startCell[0]+endCell[0])/2)+3][((startCell[1]+endCell[1])/2)+3];*/[11,47]
+ var point1 =  [((startCell[0]+endCell[0])/2)+5,((startCell[1]+endCell[1])/2)+5];
+ var point2 =  [((startCell[0]+endCell[0])/2)+1,((startCell[1]+endCell[1])/2)+1];
+ var point3 = [((startCell[0]+endCell[0])/2)+2,((startCell[1]+endCell[1])/2)+2];
+ var point4 = [((startCell[0]+endCell[0])/2)+3,((startCell[1]+endCell[1])/2)+3];
 function generateGrid( rows, cols ) {
     var grid = "<table>";
     for ( row = 1; row <= rows; row++ ) {
@@ -37,7 +37,7 @@ function generateGrid( rows, cols ) {
     grid += "</table>"
     return grid;
 }
-// function initialisEndPointsArray( numberOfcities) {
+// function initialisEndPointsArray(4) {
 // 	var endPoints =[startCell,endCell];
 // 	 for(var i=1; i<=numberOfcities; i++){
 // 		 var point = [endCell[0]+i+1, endCell[1]+i+1];
@@ -200,6 +200,7 @@ $( "#clearBtn" ).click(function(){
 
 	else if( del ==1){
 		clearBoard1( keepWeight = false);
+		del = 0;
 	}
 	
 
@@ -784,6 +785,7 @@ function clearBoard(keepWalls ){
 			   if(i == point2index) {$(cells[i]).addClass("end"); }
 			   if(i == point3index){$(cells[i]).addClass("end"); }
 			   if( i == point4index) {$(cells[i]).addClass("end"); }
+			   
 
 			 }
 			 else if ( keepWalls && isWall ){ 

@@ -1,4 +1,6 @@
 function AStar(start, end , object) {
+	if(travellingCalled)  objectCellsToAnimate=[];
+	var cells = $("#tableContainer").find("td");
 	var pathFound = false;
 	var myHeap = new minHeap();
 	var prev = createPrev();
@@ -10,7 +12,6 @@ function AStar(start, end , object) {
 	myHeap.push([0, [start[0], start[1]]]);
 	if(!object){
 		cellsToAnimate.push( [[start[0], start[1]], "searching"] );
-	   
 	}
 	else{
 			cellsToAnimate.push( [[start[0], start[1]], "searching2"] );
@@ -21,25 +22,20 @@ function AStar(start, end , object) {
 		var j = cell[1][1];
 		if (visited[i][j]){ continue; }
 		visited[i][j] = true;
-		if(!object){
+		if(!object) {
 			cellsToAnimate.push( [[i, j], "visited"] );}
-		else{
-				cellsToAnimate.push( [[i, j], "visited2"] );}
+		else{ cellsToAnimate.push( [[i, j], "visited2"] );}
 			
 	   if(object){
 		 if (i == object[0] && j == object[1]){
 			pathFound = true;
-			break;
-		}
+			break;}
 
 		}else{
-			
-		      if (i == end[0] && j == end[1]){
-	        	
+	      if (i == end[0] && j == end[1]){
 			pathFound = true;
 			break;
-		
-		 }
+			 }
 		}		
 		var neighbors = getNeighbors(i, j);
 		
@@ -48,7 +44,7 @@ function AStar(start, end , object) {
 			var n = neighbors[k][1];
 			if (visited[m][n]){ continue; }
 			var newDistance = distances[i][j] + 1;
-			if(cellIsAWeight(m,n,cell)){
+			if(cellIsAWeight(m,n,cells)){
                 newDistance= distances[i][j] + 4;
 			}
 			if (newDistance < distances[m][n]){
@@ -74,42 +70,21 @@ function AStar(start, end , object) {
 		}
 	}
 	// Make any nodes still in the heap "visited"
-	while ( !myHeap.isEmpty() ){
-		var cell = myHeap.getMin();
-		var i = cell[1][0];
-		var j = cell[1][1];
-		if (visited[i][j]){ continue; }
-		visited[i][j] = true;
-		if(!object){
-			cellsToAnimate.push( [[i, j], "visited"] );}
-		else{
-			cellsToAnimate.push( [[i, j], "visited2"] );}
-		
-	}
+	nodesStillInHeap(myHeap,object, visited );
 	// If a path was found, illuminate it
-	
 	if (pathFound) {
-		if(!object){
-			var i = end[0];
-			var j = end[1];
-		}
-		else{
-		    var i = object[0];
-			var j = object[1];
-		}
-				
-		objectCellsToAnimate.push([i,j]);
-
-		//	cellsToAnimate.push( [endCell, "success"] );
-			while (prev[i][j] != null){
-				var prevCell = prev[i][j];
-				i = prevCell[0];
-				j = prevCell[1];
-				objectCellsToAnimate.push([i,j]);
-			}
-    }
+		if(object)
+		objectCellsToAnimate = showPath(objectCellsToAnimate,object,end,prev);
+		else
+		objectCellsToAnimate = showPath(objectCellsToAnimate,null,end,prev);
+	}
+	
+	
     if(object) {
 		AStar(object, end, null);}
+		if(travellingCalled){
+			return objectCellsToAnimate;
+		}
 	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
 	objectCellsToAnimate= [];
 	pathFound=true;
@@ -139,6 +114,7 @@ function DFS(i, j, visited){
 	cellsToAnimate.push( [[i, j], "visited"] );
 	return false;
 }
+
 
 
 // NEED TO REFACTOR AND MAKE LESS LONG
@@ -204,23 +180,12 @@ function BFS(start, end ,object){
 	
 	// If a path was found, illuminate it
 	if (pathFound) {
-		if(object){
-		var r = object[0];
-		var c = object[1];}
-		else{
-		 var r =  end[0];
-		 var c = end[1];
-			}
-		objectCellsToAnimate.push([r,c]);
-		//cellsToAnimate.push( [[r, c], "success"] );
-		while (prev[r][c] != null){
-			var prevCell = prev[r][c];
-			r = prevCell[0];
-			c = prevCell[1];
-			//cellsToAnimate.push( [[r, c], "success"] );
-			objectCellsToAnimate.push([r,c]);
-		}
+		if(object)
+		objectCellsToAnimate = showPath(objectCellsToAnimate,object,end,prev);
+		else
+		objectCellsToAnimate = showPath(objectCellsToAnimate,null,end,prev);
 	}
+	
 	if(object) { BFS (object, end, null); }
 	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r, c], "success"] ));
 	objectCellsToAnimate= [];
@@ -356,9 +321,6 @@ function dijkstra(start,end,object) {
 	var myHeap = new minHeap();
 	var prev = createPrev();
 	var distances = createDistances();
-	
-	
-	
 	var visited = createVisited();
 
 	distances[ start[0] ][ start[1] ] = 0;
@@ -421,35 +383,14 @@ function dijkstra(start,end,object) {
 	}
 	//console.log(JSON.stringify(myHeap.heap));
 	// Make any nodes still in the heap "visited"
-	while ( !myHeap.isEmpty() ){
-		var cell = myHeap.getMin();
-		var i = cell[1][0];
-		var j = cell[1][1];
-		if (visited[i][j]){ continue; }
-		visited[i][j] = true;
-		if(!object){
-		cellsToAnimate.push( [[i, j], "visited"] );}
-		else{
-			cellsToAnimate.push( [[i, j], "visited2"] );}
-		
-	}
-	// If a path was found, illuminate it
+	nodesStillInHeap (myHeap,object,visited);
+	
+
 	if (pathFound) {
-		if(!object){
-		var i = end[0];
-		var j = end[1];}
-		else{
-			var i = object[0];
-			var j = object[1];}
-			objectCellsToAnimate.push([i,j]);
-	//	cellsToAnimate.push( [endCell, "success"] );
-		while (prev[i][j] != null){
-			var prevCell = prev[i][j];
-			i = prevCell[0];
-			j = prevCell[1];
-			objectCellsToAnimate.push([i,j]);
-			//cellsToAnimate.push( [[i, j], "success"] );
-		}
+		if(object)
+		objectCellsToAnimate = showPath(objectCellsToAnimate,object,end,prev);
+		else
+		objectCellsToAnimate = showPath(objectCellsToAnimate,null,end,prev);
 	}
 	if(object){dijkstra(object,end, null)}
 	if(travellingCalled){
@@ -663,7 +604,8 @@ function greedyBestFirstSearch(start, end, object) {
 	var prev = createPrev();
 	var costs = createDistances();
 	var visited = createVisited();
-	objectCellsToAnimate = [];
+	var cells = $("#tableContainer").find("td");
+	if(travellingCalled) objectCellsToAnimate = [];
 	costs[ start[0] ][ start[1] ] = 0;
 	myHeap.push([0, [start[0], start[1]]]);
 	if(!object){
@@ -703,13 +645,13 @@ function greedyBestFirstSearch(start, end, object) {
 			if (visited[m][n]){ continue; }
 			if(object){
 			var newCost = Math.abs(object[0] - m) + Math.abs(object[1] - n);
-			if(cellIsAWeight(m,n,cell)){
+			if(cellIsAWeight(m,n,cells)){
 				var newCost = Math.abs(object[0] - m) + Math.abs(object[1] - n)+4;
 			}
 		}
 			else{
 				var newCost = Math.abs(end[0] - m) + Math.abs(end[1] - n);
-				if(cellIsAWeight(m,n,cell)){
+				if(cellIsAWeight(m,n,cells)){
 					var newCost = Math.abs(end[0] - m) + Math.abs(end[1] - n)+4;
 				}
 			}
@@ -727,6 +669,40 @@ function greedyBestFirstSearch(start, end, object) {
 		}
 	}
 	// Make any nodes still in the heap "visited"
+	nodesStillInHeap (myHeap, object, visited);
+	if (pathFound) {
+		if(object)
+		objectCellsToAnimate = showPath(objectCellsToAnimate,object,end,prev);
+		else
+		objectCellsToAnimate = showPath(objectCellsToAnimate,null,end,prev);
+	}
+		if(object) {
+			greedyBestFirstSearch(object, end, null)
+		 }
+			objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
+		 
+			objectCellsToAnimate= [];
+		 return pathFound;		
+ }
+ function showPath(objectCellsToAnimate,object,end, prev){
+	if(object){
+		var r = object[0];
+		var c = object[1];}
+		else{
+		 var r =  end[0];
+		 var c = end[1];
+			}
+		objectCellsToAnimate.push([r,c]);
+		
+		while (prev[r][c] != null){
+			var prevCell = prev[r][c];
+			r = prevCell[0];
+			c = prevCell[1];
+			objectCellsToAnimate.push([r,c]);
+		}
+		return objectCellsToAnimate;
+}
+function nodesStillInHeap (myHeap, object, visited){
 	while ( !myHeap.isEmpty() ){
 		var cell = myHeap.getMin();
 		var i = cell[1][0];
@@ -738,38 +714,6 @@ function greedyBestFirstSearch(start, end, object) {
 		else
 				cellsToAnimate.push([[i, j], "visited2"]);
 	}
-	
-		
-		if (pathFound) {
-			if(!object){
-			  var i = end[0];
-			  var j = end[1];
-			  
-			}
-			  else{
-				var i = object[0];
-				var j = object[1];
-			
-			  }
-			 
-			objectCellsToAnimate.push([i,j]);
-	
-			while (prev[i][j] != null){
-				var prevCell = prev[i][j];
-				i = prevCell[0];
-				j = prevCell[1];
-				objectCellsToAnimate.push([i,j]);
-
-			}		
-		}
-
-		if(object) {
-			greedyBestFirstSearch(object, end, null)
-		 }
-			objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
-		 
-			objectCellsToAnimate= [];
-		 return pathFound;		
  }
  
  
