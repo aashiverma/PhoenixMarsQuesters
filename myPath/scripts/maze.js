@@ -2,8 +2,8 @@ async function randomMaze(){
 	inProgress = true;
 	del =0;
 	
-	var visited = createVisited();
-	var walls = makeWalls();
+	var visited =  createDistancesPrevWalls(false,true,false,true);
+	var walls = createDistancesPrevWalls(false,false,true,false);
 	var cells = [ startCell, endCell ];
 	walls [ startCell[0] ][ startCell[1] ] = false;
 	walls [ endCell[0] ][ endCell[1] ] = false;
