@@ -72,6 +72,7 @@
 				
 				  <button class="btn btn-default btn-space " type="submit" id="startBtn">Start!</button>
 				  <button type="button" class="btn btn-dark btn-space " type="submit" id="clearBtn">Clear Board</button>
+				  <button id="show_instructions" class="btn btn-default navbar-btn" data-toggle="model" type="button">show Instruction</button>
 				  <button type="button" class="btn btn-outline-success btn-circle btn-lg" data-toggle="modal" data-target="#infoModal" id="infoModalBtn">Info</button>
 				</ul>
 		</div>
@@ -345,11 +346,32 @@
 				    <div class="card-header" id="headingSix">
 				      <h5 class="mb-0">
 				        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-				          Jump Point Search
+				          Travelling Salesman
 				        </button>
 				      </h5>
 				    </div>
 				    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+				      <div class="card-body">
+				        <p>
+				        	<b>How It Works: </b> It gives shortest possible route that visits every city/Node exactly once Given a set of Nodes and distance between every pair of Node
+				        </p>
+				        <p>
+				        	<b>Analysis: </b> This is a good algorithm for pathfinding if there are more than one ending node. It is <u>weighted</u> and it <u>guarantees</u> the shortest path.
+				        </p>
+				        
+				      </div>
+				    </div>
+				  </div>
+
+				  <div class="card">
+				    <div class="card-header" id="headingSeven">
+				      <h5 class="mb-0">
+				        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+				          Jump Point Search
+				        </button>
+				      </h5>
+				    </div>
+				    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
 				      <div class="card-body">
 				        <p>
 				        	<b>How It Works: </b> Jump Point Search is an optimization of A* for uniform cost grids. It reduces symmertries in the search procedure by graph pruning, which eliminates certain nodes to explore based on the assumptions that can be made about the current node's neighbors (as long as certain conditions are satisfied). My implimentation only considers straight horizontal and vertical 'jumps.' In the original JPS paper, it also considers diagonal jumps, but since my program only moves horizontally and vertically, I decided to not impliment diagonal jumps. This made the algorithm non-optimal, sometimes resulting in the algorithm not being able to find the end node. Despite this, I decided to leave this algorithm in myPath to demonstrate the different types of algorithms out there. 
@@ -407,11 +429,30 @@
 	 	<div id="length" class="d-flex justify-content-center"> 	
 	 	</div>	 	
 	</div>
+	<div id="draw_area"></div>
+
+    <div id="instructions_panel" class="panel">
+      <header>
+        <h2 class="header_title">Instructions</h2>
+		<button id="hide_instructions" class="btn btn-default navbar-btn" data-toggle="model" type="button">hide</button>
+		
+	  </header>
+	 
+     You can only select the following algorithms in these cases:- <br>
+    1. WATER - Dijkstra, A*, Greedy BFS , BFS . <br>
+	 2.HIGH METEORITE HIT REGION - Dijkstra , A* , Greedy BFS. <br>
+
+	 
+     <br>Mazes does not work for travelling salesman algorithm and visa versa   <br>
+     Click on the grid cell anywhere to clear the path.
+    </div>
+     
+ 
 
 	<script src="bootstrap/js/jquery-3.5.1.slim.min.js"></script>
     <script src="bootstrap/js/popper.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="./js/panel.js"></script>
 	<script type="text/javascript" src="scripts/script.js"></script>
 	<script type="text/javascript" src="scripts/heapAndQueu.js"></script>
 	<script type="text/javascript" src="scripts/algos.js"></script>

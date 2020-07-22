@@ -283,3 +283,46 @@ ul {
 	padding-right: 40px;
 	font-size: 14px;
   }
+
+  
+  .panel {
+    position: fixed;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    cursor: default;
+}
+
+.right_panel {
+    width: 250px;
+    right: 20px;
+}
+
+#algorithm_panel {
+    right: 20px;
+    top: 20px;
+}
+
+#instructions_panel {
+    top: 140px;
+    right: 10px;
+	width: 500px;
+	
+}
+
+#hide_instructions {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 90%;
+    cursor: pointer;
+}
+
+#hide_instruction:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+

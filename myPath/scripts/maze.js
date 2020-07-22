@@ -1,7 +1,16 @@
 async function randomMaze(isWall,isWeight){
 
 	inProgress = true;
-	del = 0;
+	//if( del ==0){
+		clearBoard( keepWalls= false);
+		//t=1;
+	//}
+	//if( del ==1){
+		clearBoard( keepWeight= false);
+		t=1;
+	//}
+
+	
 
 	if(isWall){
 		var visited = createDistancesPrevWalls(false,false,false,false,true,false);
@@ -113,6 +122,7 @@ async function randomMaze(isWall,isWeight){
 async function spiralMaze(){
 	inProgress = true;
 	clearBoard(keepWalls = false);
+	t=1;
 
 	var length = 1;
 	var direction = {
@@ -147,6 +157,7 @@ function inBounds(cell){
 async function recursiveDivMaze(bias){
 	inProgress = true;
 	clearBoard(keepWalls = false);
+	t=1;
 
 	//Animate edge walls
 	for (var i = 0; i < totalRows; i++){

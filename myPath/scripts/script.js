@@ -1,6 +1,6 @@
 var totalRows = 25;
 var totalCols = 65;
-
+var t=0;
 var inProgress = false;
 var cellsToAnimate = [];
 var createWalls = false;
@@ -60,6 +60,15 @@ $( "#tableContainer" ).append( myGrid );
 /* ----------------- */
 
 //start button us
+
+$("#hide_instructions").click(function(){
+	$('#instructions_panel').hide();
+  });
+
+  $("#show_instructions").click(function(){
+	$('#instructions_panel').show();
+  });
+
 $( "#startBtn" ).click(function(){
     if ( algorithm == null ){ return;}
     if ( inProgress ){ update("wait"); return; }
@@ -93,11 +102,18 @@ $( "#algorithms .dropdown-item").click(function(){
 	if ( inProgress ){ update("wait"); return; }
 	algorithm = $(this).text();
 	if(algorithm == "Travelling SalesMan"){
-    //numberOfcities= 4;
-	travellingCalled= true;
+	//numberOfcities= 4;
+	if(t==1){
+		alert("Travelling salesman does not work with mazes")
+		algorithm = null;
+		
+		}
+	else{
+		travellingCalled= true;
+
 	clearBoard(keepWalls = true);}
 	updateStartBtnText();
-	console.log("Algorithm has been changd to: " + algorithm);
+	console.log("Algorithm has been changd to: " + algorithm);}
 });
 
 $( "#speed .dropdown-item").click(function(){
@@ -109,37 +125,43 @@ $( "#speed .dropdown-item").click(function(){
 
 $( "#mazes .dropdown-item").click(function(){
 	if ( inProgress ){ update("wait"); return; }
+	if (algorithm == "Travelling SalesMan" ){
+		alert( "Travelling salesman does not work for mazes")
+		//break;
+	}
+	
 	maze = $(this).text();
-	if (maze == "Random" ){
+	if (maze == "Random" && algorithm!="Travelling SalesMan"){
 		if( del ==1 ){
+			//t=1;
 			clearBoard1(keepWeight= false);
 			randomMaze(true,false);
 		}
 		else{
 		randomMaze(true,false);
 	}
-	} else if (maze == "Recursive Division"){
+	} else if (maze == "Recursive Division" && algorithm!="Travelling SalesMan"){
 		if( del ==1){
 			clearBoard1(keepWeight= false);
 			recursiveDivMaze(null);
 		}
 		else{
 		recursiveDivMaze(null);}
-	} else if (maze == "Recursive Division (Vertical Skew)"){
+	} else if (maze == "Recursive Division (Vertical Skew)" && algorithm!="Travelling SalesMan"){
 		if( del ==1){
 			clearBoard1(keepWeight= false);
 			recursiveDivMaze("VERTICAL");
 		}
 		else{
 		recursiveDivMaze("VERTICAL");}
-	} else if (maze == "Recursive Division (Horizontal Skew)"){
+	} else if (maze == "Recursive Division (Horizontal Skew)" && algorithm!="Travelling SalesMan"){
 		if( del ==1){
 			clearBoard1(keepWeight= false);
 			recursiveDivMaze("HORIZONTAL");
 		}
 		else
 		   recursiveDivMaze("HORIZONTAL");
-	} else if (maze == "Simple Spiral"){
+	} else if (maze == "Simple Spiral" && algorithm!="Travelling SalesMan"){
 
 		if( del ==1){
 			clearBoard1(keepWeight= false);
@@ -147,7 +169,7 @@ $( "#mazes .dropdown-item").click(function(){
 		}
 		else{
 		spiralMaze();}
-	}else if (maze == "High Meteorite Hit Region" ){
+	}else if (maze == "High Meteorite Hit Region" && algorithm!="Travelling SalesMan" ){
 		
 	   randomMaze(false,true);
 
@@ -481,6 +503,7 @@ function clearBoard(keepWalls){
 			}
 			
 	}
+	t=0;
 }
 
 
@@ -519,6 +542,7 @@ function clearBoard1(keepWeight){
 			
 			
 	}
+	t=0;
 }
 
 // Ending statements
