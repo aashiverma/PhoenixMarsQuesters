@@ -1,10 +1,10 @@
 var endPoints = [endCell,point1, point2, point3, point4];
 
-var popSize = 100;
+var popSize = 150;
 var population = [];
 var fitness = [];
 
-var recordDistance = Infinity;
+
 var bestEver= [];
 
 
@@ -26,9 +26,12 @@ function draw() {
     CELLS[i]= endPoints[n];
   }
   CELLS[0]=startCell;
- display(CELLS);
+  display(CELLS);
+  
+  
   return true;
 }
+
 function createOrderandPopulation(){
   var order = [];
   for(var k=0; k<endPoints.length; k++){
@@ -41,7 +44,9 @@ function createOrderandPopulation(){
            population[i][k]= array[k];
          }
       }
+    
 }
+
 function shuffle(array) {
   array.sort(() => Math.random(1,array.length-1) - 0.5);
   return array;
@@ -61,6 +66,7 @@ function display(CELLS){
   for(var i=0; i<collect.length; i++){
       collect[i].map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
   }
+  
 }
 
 function swap(a, i, j) {
@@ -86,25 +92,28 @@ function calcDistance(points, order) {
 }
 
 function getDistance(xA, yA, xB, yB) { 
-	var xDiff = xA - xB; 
-	var yDiff = yA - yB; 
+  
+  var xDiff = Math.abs (xA - xB); 
+	var yDiff = Math.abs (yA - yB); 
 
-	return Math.abs(xDiff  + yDiff);
+	return (xDiff  + yDiff);
 }
 
-
 function calculateFitness() {
-    var currentRecord = Infinity;
+    fitness=[];
+    
+    var recordDistance = Infinity;
     for (var i = 0; i < population.length; i++) {
-     // console.log("fitness" + population[i]);
-
+     
       var d =  calcDistance(endPoints, population[i]);
       if (d < recordDistance) {
         recordDistance = d;
         bestEver = population[i];
       }
       fitness[i] = 1 / (Math.pow(d, 8) + 1);
+
     }
+    console.log(fitness);
   } 
   
 function normalizeFitness() {
@@ -117,7 +126,7 @@ function normalizeFitness() {
     }
   }
   
-  function nextGeneration() {
+ function nextGeneration() {
     var newPopulation = [];
     for (var i = 0; i < population.length; i++) {
       var orderA = pickOne(population, fitness);
@@ -127,9 +136,9 @@ function normalizeFitness() {
       newPopulation[i] = order;
     }
     population = newPopulation;
-  }
+}
   
-  function pickOne(list, prob) {
+function pickOne(list, prob) {
     var index = 0;
     var r = Math.random(1);
   
@@ -139,9 +148,9 @@ function normalizeFitness() {
     }
     index--;
     return list[index].slice();
-  }
+}
   
-  function crossOver(orderA, orderB) {
+function crossOver(orderA, orderB) {
     var start = Math.floor(Math.random(orderA.length));
     var end = Math.floor(Math.random(start + 1, orderA.length));
     var neworder = orderA.slice(start, end);
@@ -152,9 +161,9 @@ function normalizeFitness() {
       }
     }
     return neworder;
-  }
+}
   
-  function mutate(order, mutationRate) {
+function mutate(order, mutationRate) {
     for (var i = 0; i < 6; i++) {
       if (Math.random(1) < mutationRate) {
         var indexA = Math.floor(Math.random(order.length));
@@ -162,4 +171,4 @@ function normalizeFitness() {
         swap(order, indexA, indexB);
       }
     }
-  }
+}

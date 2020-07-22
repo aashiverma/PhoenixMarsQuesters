@@ -101,7 +101,7 @@ ul {
 .searching2{
 	transition : background-color 0.08s ease-in-out;
 	background-color: #b15017;
-	border-color: #b15017;
+	border-color: white;
 }
 .visited2{
 	transition : background-color 0.08s ease-in-out;

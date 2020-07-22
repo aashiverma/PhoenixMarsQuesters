@@ -1,5 +1,6 @@
 var totalRows = 25;
 var totalCols = 65;
+
 var inProgress = false;
 var cellsToAnimate = [];
 var createWalls = false;
@@ -13,13 +14,14 @@ var counter =0;
 var objectCell = [11, 20];
 var createObject = false;
 var del =0;
- var travellingCalled = false;
- var movingPoint = [];
 
- var point1 =  [((startCell[0]+endCell[0])/2)+5,((startCell[1]+endCell[1])/2)+5];
- var point2 =  [((startCell[0]+endCell[0])/2)+1,((startCell[1]+endCell[1])/2)+1];
- var point3 = [((startCell[0]+endCell[0])/2)+2,((startCell[1]+endCell[1])/2)+2];
- var point4 = [((startCell[0]+endCell[0])/2)+3,((startCell[1]+endCell[1])/2)+3];
+var travellingCalled = false;
+var movingPoint = [];
+
+var point1 = [((startCell[0]+endCell[0])/2)+5,((startCell[1]+endCell[1])/2)+5];
+var point2 = [((startCell[0]+endCell[0])/2)+1,((startCell[1]+endCell[1])/2)+1];
+var point3 = [((startCell[0]+endCell[0])/2)+2,((startCell[1]+endCell[1])/2)+2];
+var point4 = [((startCell[0]+endCell[0])/2)+3,((startCell[1]+endCell[1])/2)+3];
 
  function generateGrid( rows, cols ) {
     var grid = "<table>";
@@ -80,7 +82,9 @@ $( "#clearBtn" ).click(function(){
 document.getElementById("skipButton").onclick = () => {
 	document.getElementById("tutorial").style.display = "none";
   // $(this).toggleButtons();
-  }
+}
+
+
 /* --------------------- */
 /* --- NAV BAR MENUS --- */
 /* --------------------- */
@@ -107,12 +111,13 @@ $( "#mazes .dropdown-item").click(function(){
 	if ( inProgress ){ update("wait"); return; }
 	maze = $(this).text();
 	if (maze == "Random" ){
-		if( del ==1){
+		if( del ==1 ){
 			clearBoard1(keepWeight= false);
-			randomMaze();
+			randomMaze(true,false);
 		}
 		else{
-		randomMaze();}
+		randomMaze(true,false);
+	}
 	} else if (maze == "Recursive Division"){
 		if( del ==1){
 			clearBoard1(keepWeight= false);
@@ -144,20 +149,17 @@ $( "#mazes .dropdown-item").click(function(){
 		spiralMaze();}
 	}else if (maze == "High Meteorite Hit Region" ){
 		
-	   randomMaze1();
+	   randomMaze(false,true);
 
 	}
 	console.log("Maze has been changd to: " + maze);
 });
 			 
-// to be worked upon	
+	
 
 /* ----------------- */
 /* --- FUNCTIONS --- */
 /* ----------------- */
-
-
-
 //speed change in navbar
 function updateSpeedDisplay(){
 	if (animationSpeed == "Slow"){
@@ -169,6 +171,7 @@ function updateSpeedDisplay(){
 	}
 	return;
 }
+
 //selects the algo
 function updateStartBtnText(){
 	let strikethrough = ["bfs", "dfs"];
@@ -254,11 +257,14 @@ async function traverseGraph(algorithm){
 function executeAlgo(){
 	if (algorithm == "Depth-First Search (DFS)" ){
 		if(createObject && del==0){ alert("Kindly choose one of BFS,DIJKSTRA,A*,GREEDY-BEST-FIRST")}
+
 		else if( del ==1){
 				alert("Kindly choose one of DIJKSTRA,A*,GREEDY-BEST-FIRST")
 			}
-		else{var visited = createDistancesPrevWalls(false,false,false,true);
+		else{
+		var visited = createDistancesPrevWalls(false,false,false,false,true,false);
 		var pathFound = DFS(startCell[0], startCell[1], visited, objectCell);}
+
 	} else if (algorithm == "Breadth-First Search (BFS)"){
 		if(createObject && del==0)
 		{var pathFound = BFS(startCell,endCell, objectCell);}
@@ -304,36 +310,45 @@ function executeAlgo(){
 		else{var pathFound = BidirectionalBFS()};
 	}
 	else if (algorithm == "Travelling SalesMan"){
+		 
 	      var pathFound = draw();
 	}
 	return pathFound;
 }
 
-function makeWall(cell){
-	if (!createWalls){return;}
-    var index = $( "td" ).index( cell );
-    var row = Math.floor( ( index ) / totalRows) + 1;
-    var col = ( index % totalCols ) + 1;
-    console.log([row, col]);
-    if ((inProgress == false) && !(row == 1 && col == 1) && !(row == totalRows && col == totalCols)){
-    	$(cell).toggleClass("wall");
-    }
+function makeWallAndWeight(cell,isWall,isWeight){
+    if (!createWeight){return;}
+	var index = $( "td" ).index( cell );
+	var row = Math.floor( ( index ) / totalRows) + 1;
+	var col = ( index % totalCols ) + 1;
+	console.log([row, col]);
+	if ((inProgress == false) && !(row == 1 && col == 1) && !(row == totalRows && col == totalCols)){
+		if(isWeight)$(cell).toggleClass("weight");
+		else if(isWall)$(cell).toggleClass("wall");
+  }
 }
 
-
-function cellIsAWall(i, j, cells){
+function cellIsAWallAndWeight(i, j, cells,isWall,isWeight){
 	var cellNum = (i * (totalCols)) + j;
-	return $(cells[cellNum]).hasClass("wall");
+	if(isWall)return $(cells[cellNum]).hasClass("wall");
+	else if(isWeight)return $(cells[cellNum]).hasClass("weight");
 }
 
-function neighborsThatAreWalls( neighbors, walls ){
-	var neighboringWalls = 0;
+function neighborsThatAreWallsAndWeights( neighbors, walls , weights ,isWall,isWeight ){
+
+	var neighboringWallsAndWeights = 0;
+
 	for (var k = 0; k < neighbors.length; k++){
 		var i = neighbors[k][0];
 		var j = neighbors[k][1];
-		if (walls[i][j]) { neighboringWalls++; }
+      if(isWall){
+        if (walls[i][j]) { neighboringWallsAndWeights++;}
+	  }
+	  else if(isWeight){
+		if(weights[i][j]){ neighboringWallsAndWeights++};
+	  }
 	}
-	return neighboringWalls;
+	return neighboringWallsAndWeights;
 }
 
 function getNeighbors(i, j){
@@ -352,9 +367,9 @@ async function animateCells(){
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
 	var point1index = (point1[0] * (totalCols)) + point1[1];
-				var point2index= (point2[0] * (totalCols)) + point2[1];
-				var point3index= (point3[0] * (totalCols)) + point3[1];
-				var point4index= (point4[0] * (totalCols)) + point4[1];
+	var point2index= (point2[0] * (totalCols)) + point2[1];
+	var point3index= (point3[0] * (totalCols)) + point3[1];
+	var point4index= (point4[0] * (totalCols)) + point4[1];
 	//var weightCellIndex = num.hasClass
 	var delay = getDelay();
 	for (var i = 0; i < cellsToAnimate.length; i++){
@@ -363,7 +378,7 @@ async function animateCells(){
 		var y = cellCoordinates[1];
 		var num = (x * (totalCols)) + y;
 		if (num == startCellIndex || num == endCellIndex || (num == objectCellIndex && createObject == true) ||
-		 cellIsAWeight(x, y, cells) || (travellingCalled==true && (num==point1index || num==point2index || 
+		 cellIsAWallAndWeight(x, y, cells,false,true) || (travellingCalled==true && (num==point1index || num==point2index || 
 			num == point3index || num == point4index))){ continue; }
 		var cell = cells[num];
 		var colorClass = cellsToAnimate[i][1];
@@ -405,13 +420,18 @@ function getDelay(){
 	return delay;
 }
 
-function clearBoard(keepWalls ){
+function clearBoard(keepWalls){
 	
 	var cells = $("#tableContainer").find("td");
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
 	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
-	var movingPointI = (movingPoint[0] * (totalCols))+ movingPoint[1];
+	var point1index = (point1[0] * (totalCols)) + point1[1];
+	var point2index= (point2[0] * (totalCols)) + point2[1];
+	var point3index= (point3[0] * (totalCols)) + point3[1];
+	var point4index= (point4[0] * (totalCols)) + point4[1];
+
+	//var movingPointI = (movingPoint[0] * (totalCols))+ movingPoint[1];
 	for (var i = 0; i < cells.length; i++){
 			isWall = $( cells[i] ).hasClass("wall");
 			isWeight = $( cells[i] ).hasClass("weight");
@@ -433,11 +453,7 @@ function clearBoard(keepWalls ){
 					 }
 			 	
 			 }else if(travellingCalled){
-				var point1index = (point1[0] * (totalCols)) + point1[1];
-				var point2index= (point2[0] * (totalCols)) + point2[1];
-				var point3index= (point3[0] * (totalCols)) + point3[1];
-				var point4index= (point4[0] * (totalCols)) + point4[1];
-
+			
 				// endPoints = initialisEndPointsArray(numberOfcities
 				//  for(var k=0; k<endPoints.length;k++){
 				// 	 var m =  endPoints[k][0];
@@ -452,10 +468,11 @@ function clearBoard(keepWalls ){
 				// 	console.log("did something");
 				// 	$(cells[i]).addClass("ending"); 
 				// }
+
                if(i == point1index){$(cells[i]).addClass("end"); }
 			   if(i == point2index) {$(cells[i]).addClass("end"); }
 			   if(i == point3index){$(cells[i]).addClass("end"); }
-			   if( i == point4index) {$(cells[i]).addClass("end"); }
+			   if(i == point4index) {$(cells[i]).addClass("end"); }
 			   
 
 			 }
@@ -467,9 +484,10 @@ function clearBoard(keepWalls ){
 }
 
 
-function clearBoard1(keepWeight ){
+function clearBoard1(keepWeight){
 	
 	keepWalls= false;
+
 	var cells = $("#tableContainer").find("td");
 	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
 	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
@@ -502,9 +520,6 @@ function clearBoard1(keepWeight ){
 			
 	}
 }
-
-
-
 
 // Ending statements
 clearBoard();

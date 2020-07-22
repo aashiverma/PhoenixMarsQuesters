@@ -1,22 +1,44 @@
-async function randomMaze(){
+async function randomMaze(isWall,isWeight){
+
 	inProgress = true;
-	del =0;
-	
-	var visited =  createDistancesPrevWalls(false,true,false,true);
-	var walls = createDistancesPrevWalls(false,false,true,false);
+	del = 0;
+
+	if(isWall){
+		var visited = createDistancesPrevWalls(false,false,false,false,true,false);
+		var walls = createDistancesPrevWalls(false,false,true,false,false,false);
+		var weights = createDistancesPrevWalls(false,false,false,false,false,false);
+		walls [ startCell[0] ][ startCell[1] ] = false;
+	    walls [ endCell[0] ][ endCell[1] ] = false;
+	}
+	else if(isWeight){
+		del = 1;
+		clearBoard1( keepWeight = false);
+		var visited = createDistancesPrevWalls(false,false,false,false,false,true)//createVisited1();
+		var weights = createDistancesPrevWalls(false,false,false,true,false,false)//makeWeights();
+		var walls = createDistancesPrevWalls(false,false,false,false,false,false);
+		weights [ startCell[0] ][ startCell[1] ] = false;
+	    weights [ endCell[0] ][ endCell[1] ] = false;
+	}
+
 	var cells = [ startCell, endCell ];
-	walls [ startCell[0] ][ startCell[1] ] = false;
-	walls [ endCell[0] ][ endCell[1] ] = false;
 	visited[ startCell[0] ][ startCell[1] ] = true;
 	visited[ endCell[0] ][ endCell[1] ] = true;
+
 	while ( cells.length > 0 ){
 		var random = Math.floor(Math.random() * cells.length);
 		var randomCell = cells[random];
 		cells[random] = cells[cells.length - 1];
 		cells.pop();
 		var neighbors = getNeighbors(randomCell[0], randomCell[1]);
-		if (neighborsThatAreWalls(neighbors, walls) < 2){ continue; }
-		walls[ randomCell[0] ][ randomCell[1] ] = false;
+
+		if(isWall){
+			if (neighborsThatAreWallsAndWeights(neighbors, walls ,weights,true,false ) < 2){ continue; }
+			walls[ randomCell[0] ][ randomCell[1] ] = false;
+		}else if(isWeight) {
+			if (neighborsThatAreWallsAndWeights(neighbors,walls, weights,false,true) < 2){ continue; }
+		    weights[ randomCell[0] ][ randomCell[1] ] = false;
+		}
+
 		for (var k = 0; k < neighbors.length; k++){
 			var i = neighbors[k][0];
 			var j = neighbors[k][1];
@@ -28,8 +50,12 @@ async function randomMaze(){
     var cells = $("#tableContainer").find("td");
 	for (var i = 0; i < totalRows; i++){
 		for (var j = 0; j < totalCols; j++){
-			if (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || walls[i][j]){ 
+			if (isWall && (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || walls[i][j])){ 
+				
 				cellsToAnimate.push([ [i, j], "wall"]); 
+			}
+			else if(isWeight && (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || weights[i][j])){
+				cellsToAnimate.push([ [i, j], "weight"]); 
 			}
 		}
 	}
@@ -37,112 +63,52 @@ async function randomMaze(){
 	inProgress = false;
 	return;
 }
-function makeWeights(){
-	var weights = [];
-	for (var i = 0; i < totalRows; i++){
-		 var row = [];
-		for (var j = 0; j < totalCols; j++){
-			row.push(true);
-		}
-		weights.push(row);
-	}
-	return weights;
-	}
-	
-	function makeWeight(cell){
-	if (!createWeight){return;}
-	var index = $( "td" ).index( cell );
-	var row = Math.floor( ( index ) / totalRows) + 1;
-	var col = ( index % totalCols ) + 1;
-	console.log([row, col]);
-	if ((inProgress == false) && !(row == 1 && col == 1) && !(row == totalRows && col == totalCols)){
-	$(cell).toggleClass("weight");
-	}
-	}
-	
-   
-	function createVisited1(){
-	var visited = [];
-	var cells = $("#tableContainer").find("td");
-	for (var i = 0; i < totalRows; i++){
-		var row = [];
-		for (var j = 0; j < totalCols; j++){
-			if (cellIsAWeight(i, j, cells)){
-				row.push(true);
-			} else {
-				row.push(false);
-			}
-		}
-		visited.push(row);
-	}
-	return visited;
-	
-	
-	}
-	
-	function cellIsAWeight(i, j, cells){
-	var cellNum = (i * (totalCols)) + j;
-	return $(cells[cellNum]).hasClass("weight");}
-	
-	
-	function neighborsThatAreWeights( neighbors, weights ){
-		var neighboringWeights = 0;
-		for (var k = 0; k < neighbors.length; k++){
-			var i = neighbors[k][0];
-			var j = neighbors[k][1];
-			if (weights[i][j]) { neighboringWeights++; }
-		}
-		return neighboringWeights;
-	}
+
 //var flag2 =0;
+// async function randomMaze1(){
 	
-async function randomMaze1(){
-	
-	del =1;
-	clearBoard1( keepWeight = false);
-	//clearBoard( keepWalls = false);
-	
-
-	var visited = createVisited1();
-	var weights = makeWeights();
-	var cells = [ startCell, endCell ];
-	weights [ startCell[0] ][ startCell[1] ] = false;
-	weights [ endCell[0] ][ endCell[1] ] = false;
-	visited[ startCell[0] ][ startCell[1] ] = true;
-	visited[ endCell[0] ][ endCell[1] ] = true;
-	while ( cells.length > 0 ){
-		var random = Math.floor(Math.random() * cells.length);
-		var randomCell = cells[random];
-		cells[random] = cells[cells.length - 1];
-		cells.pop();
-		var neighbors = getNeighbors(randomCell[0], randomCell[1]);
-		if (neighborsThatAreWeights(neighbors, weights) < 2){ continue; }
-		weights[ randomCell[0] ][ randomCell[1] ] = false;
-		for (var k = 0; k < neighbors.length; k++){
+// 	del =1;
+//     clearBoard1( keepWeight = false);
+// 	//clearBoard( keepWalls = false);
+// 	var visited = createDistancesPrevWalls(false,true,false,false,false,true)//createVisited1();
+// 	var weights = createDistancesPrevWalls(false,false,false,true,false,false)//makeWeights();
+// 	var walls = createDistancesPrevWalls(false,false,false,false,false,false);
+// 	var cells = [ startCell, endCell ];
+// 	weights [ startCell[0] ][ startCell[1] ] = false;
+// 	weights [ endCell[0] ][ endCell[1] ] = false;
+// 	visited[ startCell[0] ][ startCell[1] ] = true;
+// 	visited[ endCell[0] ][ endCell[1] ] = true;
+// 	while ( cells.length > 0 ){
+// 		var random = Math.floor(Math.random() * cells.length);
+// 		var randomCell = cells[random];
+// 		cells[random] = cells[cells.length - 1];
+// 		cells.pop();
+// 		var neighbors = getNeighbors(randomCell[0], randomCell[1]);
+// 		if (neighborsThatAreWallsAndWeights(neighbors,walls, weights,false,true) < 2){ continue; }
+// 		weights[ randomCell[0] ][ randomCell[1] ] = false;
+// 		for (var k = 0; k < neighbors.length; k++){
 			
-			var i = neighbors[k][0];
-			var j = neighbors[k][1];
-			if (visited[i][j]){ continue; }
-			visited[i][j] = true;
-			cells.push([i, j]);
-		}
-	}
-	var cells = $("#tableContainer").find("td");
-	for (var i = 0; i < totalRows; i++){
-		for (var j = 0; j < totalCols; j++){
-			if (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || weights[i][j]){ 
-				cellsToAnimate.push([ [i, j], "weight"]); 
-			}
-		}
-	}
-	inProgress = true;
-	await animateCells();
-	inProgress = false;
-	//del=0;
-	return;
-}   
-
-
+// 			var i = neighbors[k][0];
+// 			var j = neighbors[k][1];
+// 			if (visited[i][j]){ continue; }
+// 			visited[i][j] = true;
+// 			cells.push([i, j]);
+// 		}
+// 	}
+// 	var cells = $("#tableContainer").find("td");
+// 	for (var i = 0; i < totalRows; i++){
+// 		for (var j = 0; j < totalCols; j++){
+// 			if (i == 0 || i == (totalRows - 1) || j == 0 || j == (totalCols - 1) || weights[i][j]){ 
+// 				cellsToAnimate.push([ [i, j], "weight"]); 
+// 			}
+// 		}
+// 	}
+// 	inProgress = true;
+// 	await animateCells();
+// 	inProgress = false;
+// 	//del=0;
+// 	return;
+// }   
 
 async function spiralMaze(){
 	inProgress = true;
@@ -191,8 +157,8 @@ async function recursiveDivMaze(bias){
 		}
 	}
 
-	var walls = createVisited();
-	var passages = createVisited();
+	var walls = createDistancesPrevWalls(false,false,false,false,true,false)//createVisited();
+	var passages = createDistancesPrevWalls(false,false,false,false,true,false)//createVisited();
 	recursiveDivMazeHelper(1, (totalRows - 2), 1, (totalCols - 2), 2, (totalRows - 3), 2, (totalCols - 3), walls, passages, bias);
 	await animateCells();
 	inProgress = false;

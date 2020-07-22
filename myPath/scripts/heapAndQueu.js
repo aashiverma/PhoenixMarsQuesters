@@ -14,9 +14,9 @@ function Queue() {
         this.stack = new Array();
         return;
     }
-   }
+}
    
-   function minHeap() {
+function minHeap() {
        this.heap = [];
        this.isEmpty = function(){
            return (this.heap.length == 0);
@@ -81,5 +81,5 @@ function Queue() {
            }
            return;
        }
-   }
+}
    
