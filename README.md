@@ -77,7 +77,12 @@ The application supports the following algorithms :-
 8. Travelling Salesman : gives shortest possible route that visits every city/Node exactly once Given a set of Nodes and distance between every pair of Node. It is calling the algorithm A* for finding the shortest path between 2 immediate points , it is breaking the problem into sub problems and finding the shortest path between the 2 nearest nodes. Note the difference between Hamiltonian Cycle and Travelling salesman. The Hamiltoninan cycle problem is to find if there exist a tour that visits every city exactly once. Here we know that Hamiltonian Tour exists (because the graph is complete) and in fact many such tours exist, the problem is to find a minimum weight Hamiltonian Cycle.
 
 
-<img width="347" alt="2020-07-23 (19)" src="https://user-images.githubusercontent.com/59122151/88260303-bdaa8b80-cce1-11ea-9976-a342b7fa5025.png">      <img width="344" alt="2020-07-23 (22)" src="https://user-images.githubusercontent.com/59122151/88260305-be432200-cce1-11ea-9a4f-8fccf81cc5c7.png">    <img width="324" alt="2020-07-23 (23)" src="https://user-images.githubusercontent.com/59122151/88260307-bedbb880-cce1-11ea-9f16-f4297d510b28.png">      <img width="358" alt="2020-07-23 (24)" src="https://user-images.githubusercontent.com/59122151/88260310-bf744f00-cce1-11ea-9cc1-8bfce774eb21.png">     <img width="363" alt="2020-07-23 (26)" src="https://user-images.githubusercontent.com/59122151/88260311-bf744f00-cce1-11ea-8efc-b0dd71464953.png">
+<img width="362" alt="2020-07-23 (51)" src="https://user-images.githubusercontent.com/59122151/88262147-4676f680-cce5-11ea-9270-cb9cb6bbb860.png">
+<img width="364" alt="2020-07-23 (47)" src="https://user-images.githubusercontent.com/59122151/88262151-470f8d00-cce5-11ea-98f5-1f00c23f8a83.png">
+<img width="360" alt="2020-07-23 (48)" src="https://user-images.githubusercontent.com/59122151/88262154-47a82380-cce5-11ea-90ae-03d1e1b2a533.png">
+<img width="358" alt="2020-07-23 (49)" src="https://user-images.githubusercontent.com/59122151/88262156-4840ba00-cce5-11ea-8b83-5905a370fa98.png">
+<img width="364" alt="2020-07-23 (50)" src="https://user-images.githubusercontent.com/59122151/88262157-4840ba00-cce5-11ea-93a1-08cef46a50fd.png">
+
 
 MAZES
 
