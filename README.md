@@ -49,6 +49,10 @@ The application supports the following algorithms :-
 
 4. Breath-first Search (unweighted): a great algorithm , starts at the root node and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.; guarantees the shortest path
 
+<img width="942" alt="2020-07-23 (25)" src="https://user-images.githubusercontent.com/59122151/88259886-e4b48d80-cce0-11ea-9a4d-93e4e2ef2db2.png">
+<img width="942" alt="2020-07-23 (27)" src="https://user-images.githubusercontent.com/59122151/88259891-e5e5ba80-cce0-11ea-8ff1-c90f3258c5ee.png">
+
+
 5. Depth-first Search (unweighted): a very bad algorithm for pathfinding; does not guarantee the     shortest path, it starts at the root node and explores as far as possible along each branch before backtracking.
 
 
@@ -59,8 +63,9 @@ The application supports the following algorithms :-
 
 6. Bi-directional BFS : breath first search algorithm which searches bidirectionally, BI-BFS starts at the start node and end node both explores all of their neighbor nodes at the present depth prior to moving on to the nodes at the next depth level, it is same as BFS but it just travells both ways.
 
-<img width="942" alt="2020-07-23 (38)" src="https://user-images.githubusercontent.com/59122151/88259799-a919c380-cce0-11ea-9f76-f28dd2c8bf61.png">
+
 <img width="942" alt="2020-07-23 (14)" src="https://user-images.githubusercontent.com/59122151/88259803-aae38700-cce0-11ea-9689-9985a2aa94f5.png">
+<img width="942" alt="2020-07-23 (38)" src="https://user-images.githubusercontent.com/59122151/88259799-a919c380-cce0-11ea-9f76-f28dd2c8bf61.png">
 
 
 7. Jump Point search : jump point search (JPS) is an optimization to the A* search algorithm for uniform-cost grids .Jump Point Search is an optimization of A* for uniform cost grids. It reduces symmertries in the search procedure by graph pruning, which eliminates certain nodes to explore based on the assumptions that can be made about the current node's neighbors (as long as certain conditions are satisfied). My implimentation only considers straight horizontal and vertical 'jumps.' In the original JPS paper, it also considers diagonal jumps, but since my program only moves horizontally and vertically, I decided to not impliment diagonal jumps. This made the algorithm non-optimal, sometimes resulting in the algorithm not being able to find the end node. Despite this, I decided to leave this algorithm in myPath to demonstrate the different types of algorithms out there. 
