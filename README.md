@@ -59,6 +59,12 @@ The application supports the following algorithms :-
 
 6. Bi-directional BFS : breath first search algorithm which searches bidirectionally, BI-BFS starts at the start node and end node both explores all of their neighbor nodes at the present depth prior to moving on to the nodes at the next depth level, it is same as BFS but it just travells both ways.
 
+
+
+<img width="960" alt="2020-07-23 (33)" src="https://user-images.githubusercontent.com/59122151/88259665-5fc97400-cce0-11ea-9c62-5bde68dc9b74.png">
+<img width="960" alt="2020-07-23 (13)" src="https://user-images.githubusercontent.com/59122151/88259666-61933780-cce0-11ea-88ca-025b862c7c1b.png">
+
+
 7. Jump Point search : jump point search (JPS) is an optimization to the A* search algorithm for uniform-cost grids .Jump Point Search is an optimization of A* for uniform cost grids. It reduces symmertries in the search procedure by graph pruning, which eliminates certain nodes to explore based on the assumptions that can be made about the current node's neighbors (as long as certain conditions are satisfied). My implimentation only considers straight horizontal and vertical 'jumps.' In the original JPS paper, it also considers diagonal jumps, but since my program only moves horizontally and vertically, I decided to not impliment diagonal jumps. This made the algorithm non-optimal, sometimes resulting in the algorithm not being able to find the end node. Despite this, I decided to leave this algorithm in myPath to demonstrate the different types of algorithms out there. 
 
 <img width="949" alt="2020-07-23 (37)" src="https://user-images.githubusercontent.com/59122151/88259383-d31eb600-ccdf-11ea-8750-dfdc94b3bb7e.png">
