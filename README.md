@@ -41,9 +41,9 @@ The application supports the following algorithms :-
 
 3. Greedy Best-first Search (weighted): a faster, more heuristic-heavy version of A*; does not  guarantee the shortest path tries to expand the node that is closest to the goal, on the grounds that this is likely to lead to a solution quickly. It evaluates nodes on a heuristic function, which in in this project is is the Euclidean distance from the current node to the end node. 
 
-
-<img width="942" alt="2020-07-23 (28)" src="https://user-images.githubusercontent.com/59122151/88259130-512e8d00-ccdf-11ea-9116-300fc5b228c1.png">
 <img width="946" alt="2020-07-23 (24)" src="https://user-images.githubusercontent.com/59122151/88259138-525fba00-ccdf-11ea-885a-3ec78bcb6daf.png">
+<img width="942" alt="2020-07-23 (28)" src="https://user-images.githubusercontent.com/59122151/88259130-512e8d00-ccdf-11ea-9116-300fc5b228c1.png">
+
 
 
 
@@ -60,6 +60,10 @@ The application supports the following algorithms :-
 6. Bi-directional BFS : breath first search algorithm which searches bidirectionally, BI-BFS starts at the start node and end node both explores all of their neighbor nodes at the present depth prior to moving on to the nodes at the next depth level, it is same as BFS but it just travells both ways.
 
 7. Jump Point search : jump point search (JPS) is an optimization to the A* search algorithm for uniform-cost grids .Jump Point Search is an optimization of A* for uniform cost grids. It reduces symmertries in the search procedure by graph pruning, which eliminates certain nodes to explore based on the assumptions that can be made about the current node's neighbors (as long as certain conditions are satisfied). My implimentation only considers straight horizontal and vertical 'jumps.' In the original JPS paper, it also considers diagonal jumps, but since my program only moves horizontally and vertically, I decided to not impliment diagonal jumps. This made the algorithm non-optimal, sometimes resulting in the algorithm not being able to find the end node. Despite this, I decided to leave this algorithm in myPath to demonstrate the different types of algorithms out there. 
+
+<img width="949" alt="2020-07-23 (37)" src="https://user-images.githubusercontent.com/59122151/88259383-d31eb600-ccdf-11ea-8750-dfdc94b3bb7e.png">
+<img width="944" alt="2020-07-23 (35)" src="https://user-images.githubusercontent.com/59122151/88259386-d4e87980-ccdf-11ea-943c-64f33ca5b9fc.png">
+
 
 8. Travelling Salesman : gives shortest possible route that visits every city/Node exactly once Given a set of Nodes and distance between every pair of Node. It is calling the algorithm A* for finding the shortest path between 2 immediate points , it is breaking the problem into sub problems and finding the shortest path between the 2 nearest nodes. Note the difference between Hamiltonian Cycle and Travelling salesman. The Hamiltoninan cycle problem is to find if there exist a tour that visits every city exactly once. Here we know that Hamiltonian Tour exists (because the graph is complete) and in fact many such tours exist, the problem is to find a minimum weight Hamiltonian Cycle.
 
