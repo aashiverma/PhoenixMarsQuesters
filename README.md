@@ -32,7 +32,8 @@ The application supports the following algorithms :-
 2. A Search* (weighted): arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm , A* uses the same min-heap data structure that is implimented in Dijkstra's, but it expands upon Dijkstra's criteria for selecting the next node to explore. Dijkstra's chooses the node with the smallest distance from the starting node to be explored next. However, A* ranks nodes differently: it has a heuristic function that evaluates how far a node has traveled from the starting node <u>and</u> how far it is from the end node. This heuristic function makes the algorithm 'smart' since it is able to expand in a direction of interest. My implimentation of A* uses Euclidean distance for the end node distance calculation.
 
 
-<img width="938" alt="2020-07-23 (26)" src="https://user-images.githubusercontent.com/59122151/88258300-74583d00-ccdd-11ea-8bc7-f61bd29731dd.png"><img width="932" alt="2020-07-23 (2)" src="https://user-images.githubusercontent.com/59122151/88258304-75896a00-ccdd-11ea-90be-532ecbc05db5.png">
+<img width="932" alt="2020-07-23 (2)" src="https://user-images.githubusercontent.com/59122151/88258304-75896a00-ccdd-11ea-90be-532ecbc05db5.png">
+<img width="938" alt="2020-07-23 (26)" src="https://user-images.githubusercontent.com/59122151/88258300-74583d00-ccdd-11ea-8bc7-f61bd29731dd.png">
 
 
 
@@ -43,6 +44,12 @@ The application supports the following algorithms :-
 4. Breath-first Search (unweighted): a great algorithm , starts at the root node and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.; guarantees the shortest path
 
 5. Depth-first Search (unweighted): a very bad algorithm for pathfinding; does not guarantee the     shortest path, it starts at the root node and explores as far as possible along each branch before backtracking.
+
+
+
+<img width="942" alt="2020-07-23 (28)" src="https://user-images.githubusercontent.com/59122151/88258925-e3826100-ccde-11ea-8d8a-78061b0cc213.png">
+<img width="944" alt="2020-07-23 (29)" src="https://user-images.githubusercontent.com/59122151/88258919-e1b89d80-ccde-11ea-8a3e-7090e8d180da.png">
+
 
 6. Bi-directional BFS : breath first search algorithm which searches bidirectionally, BI-BFS starts at the start node and end node both explores all of their neighbor nodes at the present depth prior to moving on to the nodes at the next depth level, it is same as BFS but it just travells both ways.
 
