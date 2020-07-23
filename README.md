@@ -41,6 +41,12 @@ The application supports the following algorithms :-
 
 3. Greedy Best-first Search (weighted): a faster, more heuristic-heavy version of A*; does not  guarantee the shortest path tries to expand the node that is closest to the goal, on the grounds that this is likely to lead to a solution quickly. It evaluates nodes on a heuristic function, which in in this project is is the Euclidean distance from the current node to the end node. 
 
+
+<img width="942" alt="2020-07-23 (28)" src="https://user-images.githubusercontent.com/59122151/88259130-512e8d00-ccdf-11ea-9116-300fc5b228c1.png">
+<img width="946" alt="2020-07-23 (24)" src="https://user-images.githubusercontent.com/59122151/88259138-525fba00-ccdf-11ea-885a-3ec78bcb6daf.png">
+
+
+
 4. Breath-first Search (unweighted): a great algorithm , starts at the root node and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.; guarantees the shortest path
 
 5. Depth-first Search (unweighted): a very bad algorithm for pathfinding; does not guarantee the     shortest path, it starts at the root node and explores as far as possible along each branch before backtracking.
