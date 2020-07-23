@@ -21,6 +21,9 @@ Meet The Algorithms
 The application supports the following algorithms :-
 
 1. Dijkstra's Algorithm (weighted): the father of pathfinding algorithms; guarantees the shortestpath, all of the nodes in the graph (except the starting node) are initialized with a distance equal to 'infinity.' These distances represents the cost to get from the starting node to the current node, with the starting node having a distance of zero. At the beginning of each iteration, the node with the smallest distance that hasn't been explored yet is visited. These nodes are stored in a min-heap data structure. When a node is visited, all of the neighbors' distances are updated, and if any of the neighbor's distances are lessened, then the algorithm pushes the node onto the min-heap. This continues until the end node has been reached.
+<img width="960" alt="2020-07-23 (1)" src="https://user-images.githubusercontent.com/59122151/88257026-7076eb80-ccda-11ea-9793-39652fb0b1b2.png">
+<img width="960" alt="2020-07-23 (2)" src="https://user-images.githubusercontent.com/59122151/88257034-75d43600-ccda-11ea-8fca-f389f07762f0.png">
+
 
 2. A Search* (weighted): arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm , A* uses the same min-heap data structure that is implimented in Dijkstra's, but it expands upon Dijkstra's criteria for selecting the next node to explore. Dijkstra's chooses the node with the smallest distance from the starting node to be explored next. However, A* ranks nodes differently: it has a heuristic function that evaluates how far a node has traveled from the starting node <u>and</u> how far it is from the end node. This heuristic function makes the algorithm 'smart' since it is able to expand in a direction of interest. My implimentation of A* uses Euclidean distance for the end node distance calculation.
 
