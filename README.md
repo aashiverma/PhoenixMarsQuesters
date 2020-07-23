@@ -26,7 +26,8 @@ The application supports the following algorithms :-
 
 2. A Search* (weighted): arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm , A* uses the same min-heap data structure that is implimented in Dijkstra's, but it expands upon Dijkstra's criteria for selecting the next node to explore. Dijkstra's chooses the node with the smallest distance from the starting node to be explored next. However, A* ranks nodes differently: it has a heuristic function that evaluates how far a node has traveled from the starting node <u>and</u> how far it is from the end node. This heuristic function makes the algorithm 'smart' since it is able to expand in a direction of interest. My implimentation of A* uses Euclidean distance for the end node distance calculation.
 
-<img width="323" alt="2020-07-23 (22)" src="https://user-images.githubusercontent.com/59122151/88257467-699ca880-ccdb-11ea-9fce-287aac286aba.png"> <img width="315" alt="2020-07-23 (23)" src="https://user-images.githubusercontent.com/59122151/88257475-6bff0280-ccdb-11ea-86ad-45e9859a0a4d.png">
+<img width="960" alt="2020-07-23" src="https://user-images.githubusercontent.com/59122151/88258097-f005ba00-ccdc-11ea-8a47-13d0b9736b22.png"><img width="960" alt="2020-07-23 (1)" src="https://user-images.githubusercontent.com/59122151/88258102-f3994100-ccdc-11ea-8604-cf349ebe91b0.png">
+
 
 
 
