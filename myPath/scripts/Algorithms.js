@@ -1,6 +1,10 @@
+
+ 
+ 
 var objectCellsToAnimate = [];
+
 function AStar(start, end , object) {
-	if(travellingCalled)  objectCellsToAnimate=[];
+	if(algorithm == "Travelling SalesMan")  objectCellsToAnimate=[];
 	var cells = $("#tableContainer").find("td");
 	var pathFound = false;
 	var myHeap = new minHeap();
@@ -26,18 +30,9 @@ function AStar(start, end , object) {
 		if(!object) {
 			cellsToAnimate.push( [[i, j], "visited"] );}
 		else{ cellsToAnimate.push( [[i, j], "visited2"] );}
-			
-	   if(object){
-		 if (i == object[0] && j == object[1]){
-			pathFound = true;
-			break;}
-
-		}else{
-	      if (i == end[0] && j == end[1]){
-			pathFound = true;
-			break;
-			 }
-		}		
+		
+		if(checkEnd(i,j,object,end)){pathFound=true; break;} 
+		
 		var neighbors = getNeighbors(i, j);
 		
 		for (var k = 0; k < neighbors.length; k++){
@@ -83,7 +78,7 @@ function AStar(start, end , object) {
 	
     if(object) {
 		AStar(object, end, null);}
-		if(travellingCalled){
+		if(algorithm == "Travelling SalesMan"){
 			return objectCellsToAnimate;
 		}
 	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
@@ -92,7 +87,6 @@ function AStar(start, end , object) {
 	return pathFound;
 	
 }
-
 function DFS(i, j, visited){
 	
 	if (i == endCell[0] && j == endCell[1]){
@@ -139,17 +133,7 @@ function BFS(start, end ,object){
 		else{
 			cellsToAnimate.push( [cell, "visited2"] );
 		}
-		if(!object){
-		     if (r == end[0] && c == end[1]){
-			  pathFound = true;
-			  break;
-		   }
-	    }else{
-			if (r == object[0] && c == object[1]){
-				pathFound = true;
-				break;
-			}   
-	    }
+		if(checkEnd(r,c,object,end)){pathFound=true; break;} 
 		// Put neighboring cells in queue
 		var neighbors = getNeighbors(r, c);
 		for (var k = 0; k < neighbors.length; k++){
@@ -348,17 +332,8 @@ function dijkstra(start,end,object) {
 			cellsToAnimate.push([[i, j], "visited2"]);}
 		
 		//end cell defined above
-		if(object){
-			if (i == object[0] && j == object[1]){
-				pathFound = true;
-				break;
-			}
-		}else{
-		if (i == end[0] && j == end[1]){
-			pathFound = true;
-			break;
-		}
-	}
+		if(checkEnd(i,j,object,end)){pathFound=true; break;} 
+
 		//get neighbour is a fnctn above
 		var neighbors = getNeighbors(i, j);
 		for (var k = 0; k < neighbors.length; k++){
@@ -396,7 +371,7 @@ function dijkstra(start,end,object) {
 		objectCellsToAnimate = showPath(objectCellsToAnimate,null,end,prev);
 	}
 	if(object){dijkstra(object,end, null)}
-	if(travellingCalled){
+	if(algorithm == "Travelling SalesMan"){
 		return objectCellsToAnimate;
 	}
 	objectCellsToAnimate.map(([r,c]) => cellsToAnimate.push( [[r,c], "success"] ));
@@ -606,7 +581,7 @@ function greedyBestFirstSearch(start, end, object) {
 	var costs = createDistancesPrevWalls(true,false,false,false,false,false);
 	var visited =  createDistancesPrevWalls(false,false,false,false,true,false);
 	var cells = $("#tableContainer").find("td");
-	if(travellingCalled) objectCellsToAnimate = [];
+	if(algorithm == "Travelling SalesMan") objectCellsToAnimate = [];
 	costs[ start[0] ][ start[1] ] = 0;
 	myHeap.push([0, [start[0], start[1]]]);
 	if(!object){
@@ -626,18 +601,7 @@ function greedyBestFirstSearch(start, end, object) {
 		else{
 				cellsToAnimate.push( [[i,j], "visited2"] );
 			}
-			if(object){
-				if (i == object[0] && j == object[1]){
-				   pathFound = true;
-				   break;
-			   }
-			}else{
-			   if (i == end[0] && j == end[1]){
-			    pathFound=true;
-				   break;
-			   }
-			   }	
-
+			if(checkEnd(i,j,object,end)){pathFound=true; break;} 
 			
 		var neighbors = getNeighbors(i, j);
 		for (var k = 0; k < neighbors.length; k++){
@@ -685,6 +649,7 @@ function greedyBestFirstSearch(start, end, object) {
 			objectCellsToAnimate= [];
 		 return pathFound;		
  }
+
  function showPath(objectCellsToAnimate,object,end, prev){
 	if(object){
 		var r = object[0];
@@ -716,7 +681,14 @@ function nodesStillInHeap (myHeap, object, visited){
 			cellsToAnimate.push([[i, j], "visited2"]);
 	}
  }
+ function checkEnd (i,j,object,end){
+	if(object) {if (i == object[0] && j == object[1]) return true;}
+	else if (i == end[0] && j == end[1])  return true;
+	  
+	return false;	
+}
  
- 
+
+
 
 

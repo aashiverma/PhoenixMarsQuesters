@@ -1,24 +1,13 @@
-var movingStart = false;
-var movingEnd = false;
-var movingObject = false;
-var movingPointIndex= false;
+var { movingStart, movingEnd, movingObject, movingPointIndex, createWalls } = initialiseVars();
 
 //walls
 $( "td" ).mousedown(function(){
 	var index = $( "td" ).index( this );
-	var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
-	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
-	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
-	var point1index = (point1[0] * (totalCols)) + point1[1];
-	var point2index = (point2[0] * (totalCols)) + point2[1];
-	var point3index = (point3[0] * (totalCols)) + point3[1];
-	var point4index = (point4[0] * (totalCols)) + point4[1];
-
+	var { point1index, point2index, point3index, point4index, startCellIndex, endCellIndex, objectCellIndex } = getIndexes();
 	if ( !inProgress ){
 		// Clear board if just finished
 		if ( justFinished  && !inProgress ){ 
-			clearBoard( keepWalls = true ); 
-			
+			clearBoard(true,false); 
 			justFinished = false;
 		}
 		if (index == startCellIndex){
@@ -30,8 +19,8 @@ $( "td" ).mousedown(function(){
 		}else if(index == objectCellIndex) {
 			movingObject= true;
 
-		}else if (travellingCalled){
-
+		}else if (algorithm == "Travelling SalesMan"){
+		
 			   if(index == point1index){
 					movingPointIndex= true;
 					movingPoint = point1;
@@ -48,16 +37,6 @@ $( "td" ).mousedown(function(){
 					movingPointIndex= true;
 					movingPoint = point4;
 				}
-			//endPoints = initialisEndPointsArray(numberOfcities);
-			// for(var k=0; k<endPoints.length;k++){
-			// 	var m =  endPoints[k][0];
-			// 	var n = endPoints[k][1];
-			// 	PointIndex = (m * (totalCols)) + n;
-			// 	if(index == PointIndex){
-			// 		console.log("moved");
-			// 	   movingPointIndex =true;
-			// 	   movingPoint= PointIndex;
-			// 	}
 			}
 			else {
 				createWalls = true;
@@ -78,20 +57,13 @@ $( "td" ).mouseup(function(){
 $( "td" ).mouseenter(function() {
 	if (!createWalls && !movingStart && !movingEnd && !movingObject && !movingPointIndex){ return; }
     var index = $( "td" ).index( this );
-    var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
-	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
-
-	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
 	var movingPointkIndex =  (movingPoint[0] * (totalCols)) + movingPoint[1];
 	
-    var point1index = (point1[0] * (totalCols)) + point1[1];
-    var point2index = (point2[0] * (totalCols)) + point2[1];
-	var point3index = (point3[0] * (totalCols)) + point3[1];
-	var point4index = (point4[0] * (totalCols)) + point4[1];
+	var { point1index, point2index, point3index, point4index,startCellIndex,endCellIndex,objectCellIndex} = getIndexes();
 
     if (!inProgress){
     	if (justFinished){ 
-			clearBoard( keepWalls = true );
+			clearBoard( true,false);
 			
     		justFinished = false;
     	}
@@ -102,54 +74,56 @@ $( "td" ).mouseenter(function() {
     		moveStartOrEnd(endCellIndex, index, "end");
 		}else if (movingObject && index != endCellIndex && index != startCellIndex  && index != point1index && index != point2index && index != point3index && index != point4index){
             moveStartOrEnd(objectCellIndex, index, "object");
-		} else if(movingPointIndex && index != endCellIndex && index != startCellIndex && index!= objectCellIndex){
-			moveStartOrEnd(movingPointkIndex, index, "ending");
-
-			// if( index == point1index && index!= point2index && index != point3index && index != point4index)
-			// 	 {moveStartOrEnd(movingPointkIndex, index, "ending");}
-			// if( index==point2index && index != point1index && index != point3index && index != point4index)
-			// 	 {moveStartOrEnd(movingPointkIndex, index, "ending");}
-			// if(index == point3index && index != point1index && index != point2index && index != point4index)
-			// 	 {moveStartOrEnd(movingPointkIndex, index, "ending");}
-			// if(index == point4index &&  index != point1index && index != point2index && index != point3index)
-			// 	 {moveStartOrEnd(movingPointkIndex, index, "ending");}
-				 
-			console.log("2mouseenter");
-
-
+		} else if(movingPointIndex && index != endCellIndex && index != startCellIndex && index!= objectCellIndex){			moveStartOrEnd(movingPointkIndex, index, "ending");
+		    if(checkoverlapping(movingPointkIndex, point1index, index, point2index, point3index, point4index))
+		     moveStartOrEnd(movingPointkIndex, index, "ending");
 		}else if (index != startCellIndex && index != endCellIndex && index !=objectCellIndex && index != movingPointIndex) {
     		$(this).toggleClass("wall");}
     } 
 });
-a
-$( "td" ).click(function() {
-    var index = $( "td" ).index( this );
-    var startCellIndex = (startCell[0] * (totalCols)) + startCell[1];
-	var endCellIndex = (endCell[0] * (totalCols)) + endCell[1];
-	var objectCellIndex = (objectCell[0] * (totalCols))+ objectCell[1];
-	var movingPointkIndex =  (movingPoint[0] * (totalCols)) + movingPoint[1];
-	if ((inProgress == false) && !(index == startCellIndex) && !(index == endCellIndex) && !(index == objectCellIndex) && !(index == movingPointkIndex)){
-    	if ( justFinished ){ 
-			clearBoard( keepWalls = true );
-			
-    		justFinished = false;
-    	}
-    	$(this).toggleClass("wall");
-    }
+
+const clickFunction = $("td").click(function () {
+	var index = $("td").index(this);
+	var {point1index, point2index, point3index, point4index,startCellIndex, endCellIndex, objectCellIndex } = getIndexes();
+	var movingPointkIndex = (movingPoint[0] * (totalCols)) + movingPoint[1];
+	if ((inProgress == false) && !(index == startCellIndex) && !(index == endCellIndex) && !(index == objectCellIndex) && !(index == movingPointkIndex)) {
+		if (justFinished) {
+			clearBoard(true,false);
+
+			justFinished = false;
+		}
+		$(this).toggleClass("wall");
+	}
 });
 // optimise
-$( "body" ).mouseup(function(){
+const mouseUp = $("body").mouseup(function () {
 	createWalls = false;
 	movingStart = false;
 	movingEnd = false;
-	movingObject= false;
+	movingObject = false;
 	movingPointIndex = false;
 });
+
+function initialiseVars() {
+	var movingStart = false;
+	var movingEnd = false;
+	var movingObject = false;
+	var movingPointIndex = false;
+	var createWalls = false;
+	return { movingStart, movingEnd, movingObject, movingPointIndex, createWalls };
+}
+
+function checkoverlapping(movingPointkIndex, point1index, index, point2index, point3index, point4index) {
+	return (movingPointkIndex == point1index && index != point2index && index != point3index && index != point4index)
+		|| (movingPointkIndex == point2index && index != point1index && index != point3index && index != point4index)
+		|| (movingPointkIndex == point3index && index != point1index && index != point2index && index != point4index)
+		|| (movingPointkIndex == point2index && index != point1index && index != point3index && index != point2index);
+}
 
 function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
 	var newCellY = newIndex % totalCols;
 	var newCellX = Math.floor((newIndex - newCellY) / totalCols);
-
+	var { point1index, point2index, point3index, point4index,startCellIndex, endCellIndex, objectCellIndex  } = getIndexes();
 	if (startOrEnd == "start"){
     	startCell = [newCellX, newCellY];
     	console.log("Moving start to [" + newCellX + ", " + newCellY + "]")
@@ -158,15 +132,11 @@ function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
     	endCell = [newCellX, newCellY];
     	//console.log("Moving end to [" + newCellX + ", " + newCellY + "]")
 	}
-	else if(startOrEnd == "ending" && travellingCalled){
+	else if(startOrEnd == "ending" && algorithm ==  "Travelling SalesMan"){
 
 		console.log("3Moving ending to [" + newCellX + ", " + newCellY + "]")
-		        var point1index = (point1[0] * (totalCols)) + point1[1];
-				var point2index= (point2[0] * (totalCols)) + point2[1];
-				var point3index= (point3[0] * (totalCols)) + point3[1];
-				var point4index= (point4[0] * (totalCols)) + point4[1];
-	
-	            if(prevIndex == point1index  )
+	   
+	            if(prevIndex == point1index )
 					point1 = [newCellX,newCellY];
 					 
 				if(prevIndex == point2index )
@@ -177,30 +147,17 @@ function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
 				
 				if(prevIndex == point4index  )
 				    point4 = [newCellX,newCellY];
-
-
-		// $(movingPoint).addClass("ending");
-		//  for(var k=0; k<endPoints.length; k++){
-		// 	var m =  endPoints[k][0];
-		// 	var n = endPoints[k][1];
-		// 	PointIndex = (m * (totalCols)) + n;
-		// 	if(PointIndex == prevIndex){
-		// 		console.log("yessssss" + m + " "+ n);
-		// 	   m = newCellX;
-		// 	   n = newCellY;
-		// 	   break;
-		// 	}
-		//  }
 	}
 	else if(startOrEnd == "object"){
 	   objectCell= [newCellX, newCellY];
 	}
 
-	clearBoard(keepWalls = true);
+	clearBoard(true,false);
 	
     return;
 }
 
+	
 // to be looked 
 function moveEnd(prevIndex, newIndex){
 	// Erase last end cell
