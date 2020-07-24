@@ -43,13 +43,13 @@ const startB = $("#startBtn").click(function () {
 	if (inProgress) { update("wait"); return; }
 	traverseGraph(algorithm);
 });
-
+const showWaterCell = $("#showWater").click(function () {
+	objectCell =  [((startCell[0]+endCell[0])/2),((startCell[1]+endCell[1])/2)];
+	clearBoard();
+});
 const clearB = $("#clearBtn").click(function () {
 	if (inProgress) { update("wait"); return; }
-	if (del == 0) clearBoard(false,false);
-	else if (del == 1) {
-		clearBoard(false,false);
-		del = 0;}
+	clearBoard(false,false);
 });
 
 const skip = document.getElementById("skipButton").onclick = () => document.getElementById("tutorial").style.display = "none"; 

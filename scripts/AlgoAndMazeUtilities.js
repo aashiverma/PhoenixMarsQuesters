@@ -9,18 +9,12 @@ function createDistancesPrevWalls(dist, prev, walls,weights,visited,visitedWeigh
             else if(walls) row.push(true);
             else if(weights) row.push(true);
             else if(visited){
-                if (cellIsAWallAndWeight(i, j, cells,true,false)){
-                    row.push(true);
-                } else {
-                    row.push(false);
-                }    
+                if (cellIsAWallAndWeight(i, j, cells,true,false)) row.push(true);
+                 else   row.push(false); 
             }
             else if(visitedWeight){
-                if (cellIsAWallAndWeight(i, j, cells,false,true)){
-                    row.push(true);
-                } else {
-                    row.push(false);
-                }    
+                if (cellIsAWallAndWeight(i, j, cells,false,true)) row.push(true);
+                 else row.push(false);     
             }
 		}
 		array.push(row);
@@ -46,13 +40,10 @@ function neighborsThatAreWallsAndWeights( neighbors, walls , weights ,isWall,isW
   for (var k = 0; k < neighbors.length; k++){
       var i = neighbors[k][0];
       var j = neighbors[k][1];
-    if(isWall){
-      if (walls[i][j]) { neighboringWallsAndWeights++;}
+    if(isWall)
+      if (walls[i][j])  neighboringWallsAndWeights++;
+    else if(isWeight) if(weights[i][j]){ neighboringWallsAndWeights++};
     }
-    else if(isWeight){
-      if(weights[i][j]){ neighboringWallsAndWeights++};
-    }
-  }
   return neighboringWallsAndWeights;
 }
 async function animateCells(){
