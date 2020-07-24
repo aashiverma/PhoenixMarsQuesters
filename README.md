@@ -84,6 +84,9 @@ Jump point search (JPS) is an optimization to the A* search algorithm for unifor
 # 8. Travelling Salesman 
 It gives shortest possible route that visits every city/Node exactly once Given a set of Nodes and distance between every pair of Node. It is calling the algorithm A* for finding the shortest path between 2 immediate points , it is breaking the problem into sub problems and finding the shortest path between the 2 nearest nodes. Note the difference between Hamiltonian Cycle and Travelling salesman. The Hamiltoninan cycle problem is to find if there exist a tour that visits every city exactly once. Here we know that Hamiltonian Tour exists (because the graph is complete) and in fact many such tours exist, the problem is to find a minimum weight Hamiltonian Cycle.
 
+![WhatsApp Image 2020-07-24 at 11 33 44 PM](https://user-images.githubusercontent.com/51260237/88421663-90a3c900-ce06-11ea-97d7-8ce59c0dcee3.jpeg)
+
+
 
 
 
