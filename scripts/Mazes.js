@@ -1,9 +1,7 @@
 async function randomMaze(isWall,isWeight){
 	inProgress = true;
-
 	clearBoard(false, false);
-	t=1;
-		
+		t=1;
 	if(isWall){
 		var visited = createDistancesPrevWalls(false,false,false,false,true,false);
 		var walls = createDistancesPrevWalls(false,false,true,false,false,false);
@@ -12,7 +10,10 @@ async function randomMaze(isWall,isWeight){
 	    walls [ endCell[0] ][ endCell[1] ] = false;
 	}
 	else if(isWeight){
-	    var visited = createDistancesPrevWalls(false,false,false,false,false,true)//createVisited1();
+	
+	
+		
+		var visited = createDistancesPrevWalls(false,false,false,false,false,true)//createVisited1();
 		var weights = createDistancesPrevWalls(false,false,false,true,false,false)//makeWeights();
 		var walls = createDistancesPrevWalls(false,false,false,false,false,false);
 		weights [ startCell[0] ][ startCell[1] ] = false;
