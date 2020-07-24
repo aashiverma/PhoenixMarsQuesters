@@ -69,7 +69,8 @@ $( "td" ).mouseenter(function() {
     	}
     	//console.log("Cell index = " + index);
     	if (movingStart && index != endCellIndex && index != objectCellIndex && index != point1index && index != point2index && index != point3index && index != point4index) {
-    		moveStartOrEnd(startCellIndex, index, "start");
+           moveStartOrEnd(startCellIndex, index, "start");
+			
     	} else if (movingEnd && index != startCellIndex && index != objectCellIndex && index != point1index && index != point2index && index != point3index && index != point4index) {
     		moveStartOrEnd(endCellIndex, index, "end");
 		}else if (movingObject && index != endCellIndex && index != startCellIndex  && index != point1index && index != point2index && index != point3index && index != point4index){
@@ -152,7 +153,7 @@ function moveStartOrEnd(prevIndex, newIndex, startOrEnd){
 	   objectCell= [newCellX, newCellY];
 	}
 
-	clearBoard(true,false);
+	clearBoard(true,true);
 	
     return;
 }

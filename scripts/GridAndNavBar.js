@@ -45,7 +45,7 @@ const startB = $("#startBtn").click(function () {
 });
 const showWaterCell = $("#showWater").click(function () {
 	objectCell =  [((startCell[0]+endCell[0])/2),((startCell[1]+endCell[1])/2)];
-	clearBoard();
+	clearBoard(true , true);
 });
 const clearB = $("#clearBtn").click(function () {
 	if (inProgress) { update("wait"); return; }
