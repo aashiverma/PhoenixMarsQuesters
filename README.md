@@ -111,5 +111,5 @@ All the mazes are implemented using recursion and bactracking
 Meteorite hit is very usual on planets like mars . The meteorite hit region is high risk region so our rover must avoid travelling through that region . It needs to decide to travel through such a path which might not be the shortest but contains least amount of hits in its way as our ultimate goal is to find the shortest path so it might have to face certain amount of risks. 
 
 # 2. WATER
-The most important thing required for human settlement on mars is WATER. So, if our rover finds the presence of water on mars  prioritizing the need of water it travles through  water even if it may not provide the shortest path between our start node and end node. 
+The most important thing required for human settlement on mars is WATER. So, if our rover finds the presence of water on mars  prioritizing the need of water it travles through  water even if it may not provide the shortest path between our start node and end node.
 
