@@ -1,6 +1,6 @@
 # PHEONIX MARS QUESTERS (Mars Colonization Project)
 
-Our project is a shortest path finding  web Application based on the theme "MARS COLONIZATION".
+Our project is a shortest path finding  web Application based on the theme "MARS COLONIZATION"
 This project was build to establish a permanent human settlement on Mars.
 Our Phoenix Mars Quester is artificially intelligent  machine capable of sensing and interacting with its environment and is our RATIONAL AGENT . Using our rover as rational agent gives the best possible outcome in every scenario, and provides the user the most optimised path from start to the and node. Our rover/agent thinks rationally which means it uses logic and syllogism before coming to any conclusion. After a rational thinking , it acts rationally using its actuators and most importantly thinks humanly. AI gives rover a computer vision to navigate, sense and calculate their reaction accordingly .Our rover mainly focuses on the development and analysis of algorithms which in other words means that it is a  machine having its own intelligence and behavior. Power source of our rover is sunlight making it economic and environmental friendly , as we know Mars, near the equator, the duration of daylight is about 12 hours hence we installed solar panels in our rover providing it unlimited power source.
 
